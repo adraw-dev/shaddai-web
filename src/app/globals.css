@@ -309,20 +309,188 @@ header[data-site-header] {
 }
 
 /*
- * Transición entre páginas (mejora progresiva con <ViewTransition> de React, plan §5.5):
- * fundido corto del contenido; header y pie permanecen. Sin soporte del navegador no pasa nada.
+ * Transición entre páginas (plan §5.5): velo rojo difuminado + taza de café a trazo en 2.5D.
+ * Lo controla <RouteTransition> con `data-phase` (idle → in → out).
+ *  - Dibujo: cada trazo SVG tiene `pathLength=1`; `stroke-dashoffset` 1 → 0 lo dibuja en orden (--d).
+ *  - 2.5D: un «rig» con perspectiva oscila en Y; la sombra va atrás (translateZ −) y el vapor
+ *    adelante (translateZ +), así al girar las capas se separan solas.
+ *  - Los fundidos van en cada capa, no en el contenedor: un contenedor con opacity < 1 anula el
+ *    backdrop-filter de sus hijos. Las animaciones solo corren mientras el velo está visible.
  */
-::view-transition-old(*),
-::view-transition-new(*) {
-  animation-duration: 220ms;
-  animation-timing-function: var(--ease-ui);
+.route-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  visibility: hidden;
+  pointer-events: none;
+}
+.route-veil[data-phase="in"] {
+  visibility: visible;
+  pointer-events: auto; /* evita un segundo clic mientras cambia la ruta */
+}
+.route-veil[data-phase="out"] {
+  visibility: visible;
+}
+
+/* Velo rojo + difuminado en su propia capa (sin hijos 3D: Chrome móvil omite el backdrop-filter si los hay). */
+.route-veil__blur {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 46%,
+    color-mix(in srgb, var(--color-accent) 18%, transparent) 0%,
+    color-mix(in srgb, var(--color-accent-strong) 38%, transparent) 80%
+  );
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  backdrop-filter: blur(18px) saturate(1.2);
+  opacity: 0;
+}
+.route-veil[data-phase="in"] .route-veil__blur {
+  opacity: 1;
+  transition: opacity 200ms var(--ease-out-soft);
+}
+.route-veil[data-phase="out"] .route-veil__blur {
+  opacity: 0;
+  transition: opacity 280ms var(--ease-ui); /* = EXIT_MS en route-transition.tsx */
+}
+
+.route-veil__stage {
+  position: relative;
+  z-index: 1;
+  width: clamp(13rem, 46vw, 17rem);
+  aspect-ratio: 200 / 220;
+  perspective: 800px;
+}
+.route-veil[data-phase="in"] .route-veil__stage {
+  animation: route-stage-in 420ms var(--ease-out-soft) both;
+}
+.route-veil[data-phase="out"] .route-veil__stage {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.96);
+  transition: opacity 280ms var(--ease-ui), transform 280ms var(--ease-ui);
+}
+
+/* Foco crema detrás de la taza: el trazo cobre contrasta sobre él (≈ 8:1), no sobre el rojo. */
+.route-veil__halo {
+  position: absolute;
+  inset: -24%;
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle at 50% 54%,
+    rgb(255 248 241 / 0.95) 0%,
+    rgb(255 238 225 / 0.7) 36%,
+    rgb(255 220 201 / 0.25) 52%,
+    transparent 66%
+  );
+}
+
+.route-veil__rig {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+.route-veil:not([data-phase="idle"]) .route-veil__rig {
+  animation: route-sway 2.6s ease-in-out infinite alternate;
+}
+
+.route-veil__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.route-veil__layer--steam {
+  transform: translateZ(38px);
+}
+
+.route-veil__shadow {
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: 3%;
+  height: 9%;
+  border-radius: 9999px;
+  background: radial-gradient(ellipse, rgb(74 47 36 / 0.35), transparent 70%);
+  transform: translateZ(-30px);
+  filter: blur(4px);
+}
+
+/* Trazos: cobre del logo (color de pincel), extremos redondeados; ocultos hasta que se dibujan. */
+.route-veil__draw,
+.route-veil__steam {
+  fill: none;
+  stroke: var(--color-copper);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  /* Oculto hasta que empieza su dibujo: con extremos redondeados, un trazo «vacío» deja un punto. */
+  opacity: 0;
+}
+.route-veil__draw--faint {
+  stroke-opacity: 0.55;
+}
+.route-veil__steam {
+  stroke: color-mix(in srgb, var(--color-copper) 80%, var(--color-caramel-400));
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+.route-veil:not([data-phase="idle"]) .route-veil__draw {
+  animation: route-draw 460ms var(--ease-out-soft) calc(80ms + var(--d) * 60ms) both;
+}
+.route-veil:not([data-phase="idle"]) .route-veil__steam {
+  animation:
+    route-draw 560ms var(--ease-out-soft) calc(360ms + var(--d) * 90ms) both,
+    route-waft 1.9s ease-in-out calc(var(--d) * -0.6s) infinite;
+}
+
+@keyframes route-stage-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.9);
+  }
+}
+@keyframes route-sway {
+  from {
+    transform: rotateY(-18deg) rotateX(6deg) translateY(2px);
+  }
+  to {
+    transform: rotateY(18deg) rotateX(-3deg) translateY(-6px);
+  }
+}
+/* 0 %: oculto (cubre el retardo con fill-mode both); desde el 2 %, visible mientras se dibuja. */
+@keyframes route-draw {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+  2% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+@keyframes route-waft {
+  0%,
+  100% {
+    translate: 0 1px;
+    scale: 1 1;
+  }
+  50% {
+    translate: 3px -5px;
+    scale: 0.94 1.06;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  ::view-transition-group(*),
-  ::view-transition-old(*),
-  ::view-transition-new(*) {
-    animation: none !important;
+  .route-veil {
+    display: none;
   }
 }
 

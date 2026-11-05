@@ -1,12 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Hanken_Grotesk } from "next/font/google";
-import { ViewTransition, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import "./globals.css";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { HeaderScrollState } from "@/components/layout/header-scroll-state";
 import { SkipLink } from "@/components/layout/skip-link";
 import { WhatsAppFab } from "@/components/layout/whatsapp-fab";
+import { RouteTransition } from "@/components/motion/route-transition";
 import { siteConfig } from "@/content/site";
 import { env } from "@/lib/env";
 import { baseOpenGraph, isIndexable, siteDescription, siteTitle } from "@/lib/seo";
@@ -62,10 +63,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <HeaderScrollState />
         <Header />
         <div id="contenido" tabIndex={-1} className="flex flex-1 flex-col outline-none">
-          <ViewTransition>{children}</ViewTransition>
+          {children}
         </div>
         <Footer />
         <WhatsAppFab />
+        {/* Transición entre páginas (plan §5.5): reemplaza al fundido con <ViewTransition>. */}
+        <RouteTransition />
       </body>
     </html>
   );

@@ -236,7 +236,7 @@ Implementada en `src/app/globals.css`. Contrastes calculados (WCAG 2.x) el 2026-
 
 ### 5.5 Movimiento: principios, inventario y presupuesto
 
-**Principio rector (de `no-ai-design-slop` y `make-interfaces-feel-better`):** el movimiento explica estado, jerarquía o continuidad. No se anima para «demostrar» que la página es interactiva. Sin pantalla de carga/preloader.
+**Principio rector (de `no-ai-design-slop` y `make-interfaces-feel-better`):** el movimiento explica estado, jerarquía o continuidad. No se anima para «demostrar» que la página es interactiva. Sin pantalla de carga/preloader (**excepción confirmada por el usuario el 2026-11-05:** la transición entre páginas con la taza 2.5D del inventario; nunca bloquea la primera carga).
 
 **CSS primero.** Tokens de movimiento (duración, easing, distancia) definidos una vez (patrón de `transitions-dev`) y reutilizados. Valores de partida:
 
@@ -262,7 +262,7 @@ Implementada en `src/app/globals.css`. Contrastes calculados (WCAG 2.x) el 2026-
 | Menú móvil | Despliegue con origen consciente | CSS | `transitions-dev` · «Menu dropdown»/«Panel reveal» |
 | Tarjetas de producto (catálogo) | Al pasar el cursor o con foco de teclado: la imagen se atenúa y desenfoca levemente y aparece un botón «Ver más» (fundido + 4 px, 200 ms). Solo con puntero que admite *hover*; con movimiento reducido, sin desplazamiento. *(Pedido por el usuario el 2026-11-05)* | CSS (`group-hover`/`group-focus-within`) | `make-interfaces-feel-better` |
 | Formulario | Sacudida de error por campo; marca de éxito con trazo | CSS | `transitions-dev` · «Error state shake», «Success check» |
-| Navegación entre páginas | Fundido corto (≈ 220 ms) como **mejora progresiva**; header y pie permanecen | `<ViewTransition>` de React 19.3 envolviendo el contenido en `layout.tsx` (Next 16, sin configuración) + CSS de duración y `prefers-reduced-motion`. **Pendiente de verificar en un navegador visible (F6)** | `transitions-dev` · «Page…» |
+| Navegación entre páginas | **Velo rojo difuminado con una taza de café 2.5D** (pedido y confirmado por el usuario el 2026-11-05; reemplaza al fundido con `<ViewTransition>`): al hacer clic en un enlace interno, la página se difumina bajo un velo con el rojo de marca y, sobre un foco crema, se **dibuja a trazo una taza de café** (SVG propio en cobre: plato → taza → asa, y luego tres volutas de vapor que ondulan) que oscila en 2.5D (sombra atrás, vapor adelante); la navegación ocurre debajo y el velo se retira cuando la nueva ruta está lista (mínimo ≈ 750 ms). *Primera versión con la foto cenital de la taza descartada por el usuario; la referencia que propuso era un recurso con licencia de Pngtree, por eso el dibujo es original.* Solo con JS y `prefers-reduced-motion: no-preference`; sin JS o con movimiento reducido la navegación es directa. Atrás/adelante del navegador no lo muestran | `RouteTransition` (cliente, delegación de clics + `usePathname`) + CSS (`transform`/`opacity`, `backdrop-filter` fijo). Sin librerías ni WebGL (§6.2) | `transitions-dev`, `make-interfaces-feel-better` |
 
 **Reglas duras**
 - Solo animar `transform` y `opacity` (y `filter` puntual). **Nunca** `transition: all`. `will-change` solo si hay tirones medibles.
