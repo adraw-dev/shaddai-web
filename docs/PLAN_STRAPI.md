@@ -95,4 +95,36 @@ Crear en el panel un **API token de solo lectura** (*Settings → API Tokens →
 
 ## 8. Decisiones abiertas de esta fase
 
-Registradas en `PLAN_DESARROLLO.md` §17 como D-21 a D-24.
+Registradas en `PLAN_DESARROLLO.md` §17 como D-21 a D-24. D-21 y D-22 se resolvieron el 2026-11-05 (§9).
+
+## 9. Despliegue del CMS en Render (D-21/D-22)
+
+**Decisión (usuario, 2026-11-05):** Strapi en **Render**, desde este mismo repositorio (`rootDir: cms`), con PostgreSQL gestionado de Render y las imágenes en un **disco persistente** de Render. Todo está declarado en [`render.yaml`](../render.yaml) (*Blueprint*).
+
+| Pieza | Valor | Motivo |
+|---|---|---|
+| Servicio web | `shaddai-cms`, plan *Starter*, región Virginia | El plan gratuito no admite disco y se duerme |
+| Base de datos | `shaddai-cms-db`, plan `basic-256mb` | La PostgreSQL gratuita caduca a los 30 días |
+| Imágenes | Disco `strapi-uploads` (1 GB) en `cms/public/uploads` | Sin disco, las subidas se pierden en cada despliegue |
+| Secretos | Generados por Render (`generateValue`) | Nunca se reutilizan los del `.env` local |
+| Despliegues | Automáticos desde `main`, solo si cambia `cms/**` | Los cambios del sitio Next no redespliegan el CMS |
+
+**Límites conocidos:** un servicio con disco funciona con **una sola instancia** y tiene una breve caída en cada despliegue. Las imágenes del sitio se sirven desde Render, así que si Strapi cae, también las fotos. Si eso molesta, se migra a Cloudflare R2 (proveedor S3 de Strapi) sin tocar el sitio Next. Si el build falla por memoria (`JavaScript heap out of memory`), subir el servicio a *Standard*.
+
+### Paso a paso
+
+1. **Código en `main`:** fusionar el PR del catálogo. El Blueprint despliega desde `main`.
+2. **Cuenta de Render:** registrarse en render.com con GitHub y autorizar la app de Render en la organización `adraw-dev` (si no se es propietario de la organización, lo aprueba un propietario). Agregar un método de pago (los planes son de pago).
+3. **Crear todo con el Blueprint:** *New → Blueprint* → elegir `adraw-dev/shaddai-web` → revisar que aparezcan `shaddai-cms` y `shaddai-cms-db` → *Apply*. El primer build tarda varios minutos; seguirlo en *Logs*.
+4. **Usuario administrador:** abrir `https://<servicio>.onrender.com/admin` y registrar el primer administrador (correo real y contraseña fuerte). La primera persona que entra lo crea, así que hacerlo apenas termine el despliegue.
+5. **Pasar el catálogo local a Render** (78 productos + imágenes, ya cargados en el SQLite local con `npm run seed`):
+   1. En el panel de Render: *Settings → Transfer Tokens → Create new transfer token*, tipo **Push**, duración 7 días. Copiarlo.
+   2. Detener el Strapi local si está encendido y ejecutar en local:
+      ```bash
+      cd cms && npx strapi transfer --to https://<servicio>.onrender.com/admin --to-token <TOKEN>
+      ```
+      Confirma que **borra** el contenido remoto (en el primer despliegue está vacío). Al terminar, eliminar el transfer token.
+6. **Token de lectura para Vercel:** *Settings → API Tokens → Create new API Token*: nombre `vercel-build`, tipo **Read-only**, duración *Unlimited*. Copiarlo (solo se muestra una vez).
+7. **Variables en Vercel** (Production y Preview): `CATALOG_SOURCE=strapi`, `STRAPI_URL=https://<servicio>.onrender.com`, `STRAPI_API_TOKEN=<token>`. Volver a desplegar.
+8. **Reconstruir el sitio al publicar (S-6):** en Vercel, *Settings → Git → Deploy Hooks* → crear uno para `main` y copiar la URL. En Strapi, *Settings → Webhooks → Create new webhook* con esa URL y los eventos de **Entry** *publish*, *unpublish* y *delete*. Probarlo con *Trigger*.
+9. **Verificar:** `/productos/` en Vercel muestra los productos y las fotos cargan desde `onrender.com`.
