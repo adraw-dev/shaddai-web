@@ -10,8 +10,12 @@ export type SectionTone = "brand" | "cream" | "cream-warm" | "ink";
  *   --link   → enlaces de énfasis
  * Así los componentes internos no conocen el fondo en el que viven.
  */
-const dark = "text-cream-50 [--muted:var(--color-brand-300)] [--link:var(--color-accent-soft)] [--error:var(--color-accent-soft)]";
-const light = "text-ink [--muted:var(--color-muted)] [--link:var(--color-brand-700)] [--error:var(--color-accent)]";
+// --field-*: colores de los controles de formulario (ver ui/field.tsx). Sobre morado el campo es crema;
+// sobre crema es blanco con borde de tinta al 55 % (≥ 3:1 contra el fondo, WCAG 1.4.11).
+const dark =
+  "text-cream-50 [--muted:var(--color-brand-300)] [--link:var(--color-accent-soft)] [--error:var(--color-accent-soft)] [--field-bg:var(--color-cream-50)] [--field-border:transparent]";
+const light =
+  "text-ink [--muted:var(--color-muted)] [--link:var(--color-brand-700)] [--error:var(--color-accent)] [--field-bg:#fff] [--field-border:color-mix(in_srgb,var(--color-ink)_55%,transparent)]";
 
 const tones: Record<SectionTone, string> = {
   brand: `bg-brand-900 ${dark}`,

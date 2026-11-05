@@ -108,7 +108,7 @@ Pensado a partir del dato que el MD dice que Shaddai necesita para cotizar: **no
 | Autorización de datos | checkbox | Sí | Texto y enlace a política: **pendiente del cliente** (ver 17, Ley 1581 de 2012) |
 | *Honeypot* | oculto | — | Anti-spam sin dependencias |
 
-**Dos formas de enviar (mismos datos y misma validación):**
+**Dos formas de enviar** *(implementado en F4; ajuste respecto al plan original: la validación depende del camino y, sin endpoint, el formulario se reduce a lo útil para WhatsApp — nombre, ciudad, tipo de negocio y mensaje —, sin teléfono, correo ni autorización, porque Shaddai no recibe esos datos)*:
 1. **Enviar mensaje** → `POST` al endpoint configurado en `NEXT_PUBLIC_CONTACT_ENDPOINT` (proveedor por decidir, sección 17). Si la variable no existe, este botón no se muestra.
 2. **Enviar por WhatsApp** → arma un enlace `wa.me` con el mensaje precargado (nombre, ciudad, tipo de negocio, mensaje). **No requiere backend.**
 
@@ -479,6 +479,7 @@ Shaddai/
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | pública | Sí | Solo dígitos con indicativo (`57…`). **Falta confirmar cuál de los dos móviles es WhatsApp (D-01)** |
 | `NEXT_PUBLIC_CONTACT_ENDPOINT` | pública | No | URL del servicio que recibe el formulario. Si falta, se oculta «Enviar mensaje» |
 | `NEXT_PUBLIC_LEGACY_SITE_URL` | pública | Sí | `https://www.shaddaicolombia.com` — base para enlaces a la tienda actual |
+| `NEXT_PUBLIC_PRIVACY_POLICY_URL` | pública | **Sí en producción si hay `NEXT_PUBLIC_CONTACT_ENDPOINT`** | Ruta interna (`/…`) o URL http(s) de la política de tratamiento de datos (D-03). El build **falla** en producción si el formulario envía datos y falta la política |
 | `NEXT_PUBLIC_MAPS_EMBED_URL` | pública | No | URL de `iframe` de mapa; si falta, solo enlace «Cómo llegar» |
 | *(fase futura)* `CATALOG_SOURCE` | build | No | `static` \| `strapi` |
 | *(fase futura)* `STRAPI_URL`, `STRAPI_API_TOKEN` | **solo build/servidor** | No | El token **nunca** lleva prefijo `NEXT_PUBLIC_` |
@@ -680,7 +681,8 @@ Convenciones: **ID** = `F<fase>-<n>`. Una tarea = un commit (o un PR pequeño). 
 | **1 — Base** | ✅ Hecha, salvo F1-08 | **F1-08** (despliegue de humo en Vercel y Cloudflare Pages) requiere las cuentas del usuario. F1-07 cubierta con activos provisionales (`docs/activos-provisionales.md`) |
 | **2 — Identidad y componentes** | ✅ Hecha (F2-01 a F2-11) | Desviaciones: no se crearon `Card` ni `VisuallyHidden` (se usa `sr-only` de Tailwind; `Card` se extraerá al aparecer dos veces, regla 9.3). F2-10 `Reveal` implementado con su CSS, pero **sin usar todavía** (se aplica en F3/F5). `content/channels.ts` y `product-lines.ts` se adelantaron desde F3-01 (datos del MD) porque F2-11 los necesita |
 | **3 — Landing** | ✅ Construida como **borrador** (F3-01 a F3-10) | Funciona con activos y textos provisionales. **Antes de publicar:** D-05 (imágenes de producto de 320 px y logo de 486 px → originales), D-07 (frase poética: la sección no la muestra hasta tener el texto), D-18 (el copy usa «distribuimos», sin afirmar «fabricamos»), D-19 (`og:image`), D-20 (MAQUILA 404). Textos de `content/home.ts` pendientes de aprobación del cliente. JS de primera carga: 140.6 kB gzip (presupuesto 150 kB) |
-| 4–6 | ⏳ Pendientes | — |
+| **4 — Contáctenos** | ✅ Construida (F4-01 a F4-10) | Probada con un endpoint simulado local: validación, éxito, fallo 500, red caída, datos conservados, honeypot y WhatsApp. **Pendiente del cliente antes de publicar el envío por correo:** D-02 (destino: sin `NEXT_PUBLIC_CONTACT_ENDPOINT` solo hay WhatsApp) y D-03 (política de datos; el texto de autorización de `content/contact.ts` es una propuesta que debe validar quien corresponda legalmente). Sin D-17 no hay mapa embebido (solo «Cómo llegar»). El botón flotante de WhatsApp se oculta en esta página. JS: 143.0 kB gzip |
+| 5–6 | ⏳ Pendientes | — |
 
 ### Fase 1 — Configuración y estructura base
 
@@ -875,7 +877,7 @@ Convenciones: **ID** = `F<fase>-<n>`. Una tarea = un commit (o un PR pequeño). 
 |---|---|---|---|
 | ~~**D-01**~~ | ~~¿Cuál de los dos móviles es el de **WhatsApp**?~~ | — | **RESUELTO 2026-11-04 (por el usuario): +57 304 202 9533** → `NEXT_PUBLIC_WHATSAPP_NUMBER=573042029533`. Conviene que el cliente lo ratifique antes de producción |
 | **D-02** | Proveedor/destino del **formulario** (¿a qué correo llega? ¿servicio externo tipo formulario→correo, Worker propio de Cloudflare, otro?) y si el correo es obligatorio | F4-06 (bloquea «Enviar mensaje») | Servicio externo con `POST` simple + camino WhatsApp siempre activo |
-| **D-03** | **Política de tratamiento de datos / autorización** (Ley 1581 de 2012): texto y URL. Validar con quien corresponda legalmente | F4-09 (bloquea publicación del formulario) | Pedir al cliente su política vigente |
+| **D-03** | **Política de tratamiento de datos / autorización** (Ley 1581 de 2012): texto y URL. Validar con quien corresponda legalmente | F4-09 (bloquea publicación del formulario) | Pedir al cliente su política vigente. **Ya se hace cumplir en el build:** con endpoint configurado, `NEXT_PUBLIC_PRIVACY_POLICY_URL` es obligatoria en producción |
 | **D-04** | Dominio/subdominio para publicar la nueva web y acceso al DNS | F1-08 / F6-09 | Subdominio durante Fase 1 |
 | **D-05** | **Activos originales** en alta calidad: logo (**SVG** o PNG ≥ 1200 px), fotos de producto (≥ 1200 px, fondo transparente), galería | **F3-02 (bloquea el hero)** | Los provisionales ya están en `public/images/` (ver `docs/activos-provisionales.md`): logo 486×297 px y productos de **320×320 px** — insuficientes para pantallas de alta densidad |
 | **D-06** | Cómo presentar los **dos nombres** (*Shaddai Colombia* marca / *Shaddai Insumos S.A.S.* razón social) | F2-08 | Marca en header/hero; razón social en footer, JSON-LD y mensajes de WhatsApp |

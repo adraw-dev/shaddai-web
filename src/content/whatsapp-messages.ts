@@ -10,6 +10,19 @@
 export const advisoryMessage =
   "¡Hola! Quisiera recibir asesoría personalizada con mi pedido.";
 
+/** Mensaje armado desde el formulario de Contáctenos (camino «Enviar por WhatsApp»). */
+export function contactFormMessage(details: {
+  name: string;
+  city: string;
+  businessType?: string;
+  message?: string;
+}): string {
+  const parts = [quoteMessage({ name: details.name, city: details.city })];
+  if (details.businessType?.trim()) parts.push(`Tipo de negocio: ${details.businessType.trim()}.`);
+  if (details.message?.trim()) parts.push(`Mensaje: ${details.message.trim()}`);
+  return parts.join(" ");
+}
+
 /** Consulta sobre un canal comercial (p. ej. MAQUILA, que no tiene página de catálogo válida). */
 export function channelInquiryMessage(channelName: string): string {
   return `Hola, me interesa el canal ${channelName} de Shaddai Insumos S.A.S. y quisiera más información.`;

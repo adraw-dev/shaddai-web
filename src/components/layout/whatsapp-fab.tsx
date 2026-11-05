@@ -1,3 +1,6 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { WhatsAppIcon } from "@/components/icons";
 import { advisoryMessage } from "@/content/whatsapp-messages";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
@@ -6,8 +9,14 @@ import { buildWhatsAppUrl } from "@/lib/whatsapp";
  * Botón flotante de WhatsApp (el sitio actual lo tiene). Mensaje de asesoría (plan D-14).
  * 56 px de diámetro (≥ 44 px), respeta el área segura de iOS. El footer deja espacio inferior
  * en móvil para que no tape contenido.
+ *
+ * No se muestra en Contáctenos: allí los accesos a WhatsApp ya están en el encabezado y el flotante
+ * taparía el formulario. Es cliente solo para leer la ruta.
  */
 export function WhatsAppFab() {
+  const pathname = usePathname();
+  if (pathname.startsWith("/contactenos")) return null;
+
   const href = buildWhatsAppUrl(advisoryMessage);
   const external = href.startsWith("http");
 

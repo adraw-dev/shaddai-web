@@ -159,3 +159,48 @@ html.js [data-reveal] {
     transition-duration: 0.01ms !important;
   }
 }
+
+/*
+ * Microinteracciones del formulario (plan §5.5; patrones de transitions-dev):
+ *  - Sacudida breve cuando un campo pasa a inválido (solo transform, 320 ms).
+ *  - Trazo del check de éxito (se dibuja una vez).
+ * Con prefers-reduced-motion la regla global las reduce a ~0 ms; el error sigue comunicándose con texto.
+ */
+@keyframes field-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-4px);
+  }
+  40% {
+    transform: translateX(4px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+}
+
+input[aria-invalid="true"],
+select[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  animation: field-shake 320ms var(--ease-ui) both;
+}
+
+@keyframes check-draw {
+  from {
+    stroke-dashoffset: 24;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.check-draw {
+  stroke-dasharray: 24;
+  animation: check-draw 450ms var(--ease-out-soft) 120ms both;
+}

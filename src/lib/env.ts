@@ -19,6 +19,7 @@ const raw = {
   contactEndpoint: process.env.NEXT_PUBLIC_CONTACT_ENDPOINT,
   legacySiteUrl: process.env.NEXT_PUBLIC_LEGACY_SITE_URL,
   mapsEmbedUrl: process.env.NEXT_PUBLIC_MAPS_EMBED_URL,
+  privacyPolicyUrl: process.env.NEXT_PUBLIC_PRIVACY_POLICY_URL,
 };
 
 const clean = (value: string | undefined) => {
@@ -94,6 +95,19 @@ function parseEnv() {
     problems.push("NEXT_PUBLIC_MAPS_EMBED_URL debe ser una URL http(s) válida.");
   }
 
+  // Política de tratamiento de datos (Ley 1581 de 2012, plan D-03). Si el formulario envía los datos
+  // a un endpoint (Shaddai pasa a tratar datos personales), en producción la política es obligatoria:
+  // así el build impide publicar el formulario sin ella. Acepta ruta interna (/…) o URL http(s).
+  const privacyPolicyUrl = clean(raw.privacyPolicyUrl);
+  if (privacyPolicyUrl && !privacyPolicyUrl.startsWith("/") && !isHttpUrl(privacyPolicyUrl)) {
+    problems.push("NEXT_PUBLIC_PRIVACY_POLICY_URL debe ser una ruta interna (/…) o una URL http(s).");
+  }
+  if (isProduction && contactEndpoint && !privacyPolicyUrl) {
+    problems.push(
+      "NEXT_PUBLIC_PRIVACY_POLICY_URL es obligatoria en producción cuando hay NEXT_PUBLIC_CONTACT_ENDPOINT (ver D-03).",
+    );
+  }
+
   if (problems.length > 0) {
     throw new Error(
       `Variables de entorno inválidas (ver .env.example y docs/PLAN_DESARROLLO.md §8.4):\n- ${problems.join("\n- ")}`,
@@ -108,6 +122,7 @@ function parseEnv() {
     whatsappNumber: whatsappValue,
     contactEndpoint,
     mapsEmbedUrl,
+    privacyPolicyUrl,
   } as const;
 }
 

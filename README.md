@@ -34,6 +34,8 @@ Plantilla completa y comentada en [`.env.example`](.env.example). `src/lib/env.t
 - Todas son `NEXT_PUBLIC_*` (visibles en el navegador): **nunca** poner secretos.
 - Configurar las **mismas** variables en Vercel y Cloudflare Pages, en Production y Preview.
 - `NEXT_PUBLIC_SITE_ENV=production` exige además `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_WHATSAPP_NUMBER` y `NEXT_PUBLIC_LEGACY_SITE_URL`.
+- Si se define `NEXT_PUBLIC_CONTACT_ENDPOINT` (el formulario de Contáctenos envía datos), en producción también es obligatoria `NEXT_PUBLIC_PRIVACY_POLICY_URL`. Sin endpoint, el formulario solo ofrece el camino por WhatsApp.
+- En **Git Bash para Windows**, un valor que empieza por `/` (p. ej. `NEXT_PUBLIC_PRIVACY_POLICY_URL=/politica/`) se convierte en una ruta de disco al pasarlo en la línea de comandos. Use `MSYS_NO_PATHCONV=1` o configúrelo en `.env.local`/en la plataforma de despliegue.
 
 ## Despliegue (Vercel y Cloudflare Pages)
 
