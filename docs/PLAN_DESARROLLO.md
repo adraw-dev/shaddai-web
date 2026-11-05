@@ -530,6 +530,7 @@ Shaddai/
 | Idioma | `<html lang="es-CO">`; contenido en español de Colombia |
 | Metadatos | Por página con la API de metadatos de Next: `title` (plantilla `%s \| Shaddai Colombia`), `description` real (propuesta en 4.3), `canonical` desde `NEXT_PUBLIC_SITE_URL`, `openGraph`, `twitter` |
 | Imagen social | Crear **1200×630** (la actual es 853×1066, vertical y no ideal); incluir marca y producto |
+| Open Graph | En Next, el `openGraph` de una página **reemplaza** al del layout (no se fusiona). Cada página lo compone con `{ ...baseOpenGraph, url }` (`lib/seo.ts`); si no, se pierden `og:type`, `og:site_name` y `og:locale` (error ya encontrado y corregido en F3) |
 | Datos estructurados | JSON-LD `Organization` + `LocalBusiness` (nombre, `legalName` = Shaddai Insumos S.A.S., dirección, teléfono, `openingHoursSpecification`, `sameAs` con redes). Solo datos del MD |
 | `sitemap.xml` / `robots.txt` | Generados estáticamente. En `preview` → `robots: noindex` y `X-Robots-Tag` (11.5) |
 | Semántica | Un solo `h1` por página; jerarquía `h2`/`h3` sin saltos; `<header>`, `<main>`, `<footer>`, `<nav aria-label>`, `<section aria-labelledby>` |
@@ -678,7 +679,7 @@ Convenciones: **ID** = `F<fase>-<n>`. Una tarea = un commit (o un PR pequeño). 
 |---|---|---|
 | **1 — Base** | ✅ Hecha, salvo F1-08 | **F1-08** (despliegue de humo en Vercel y Cloudflare Pages) requiere las cuentas del usuario. F1-07 cubierta con activos provisionales (`docs/activos-provisionales.md`) |
 | **2 — Identidad y componentes** | ✅ Hecha (F2-01 a F2-11) | Desviaciones: no se crearon `Card` ni `VisuallyHidden` (se usa `sr-only` de Tailwind; `Card` se extraerá al aparecer dos veces, regla 9.3). F2-10 `Reveal` implementado con su CSS, pero **sin usar todavía** (se aplica en F3/F5). `content/channels.ts` y `product-lines.ts` se adelantaron desde F3-01 (datos del MD) porque F2-11 los necesita |
-| **3 — Landing** | ⏳ Pendiente | **Bloqueada por D-05 (imágenes ≥ 1200 px) y D-18 (¿fabrica o distribuye?)** para hero y mensaje principal; D-07 para la historia |
+| **3 — Landing** | ✅ Construida como **borrador** (F3-01 a F3-10) | Funciona con activos y textos provisionales. **Antes de publicar:** D-05 (imágenes de producto de 320 px y logo de 486 px → originales), D-07 (frase poética: la sección no la muestra hasta tener el texto), D-18 (el copy usa «distribuimos», sin afirmar «fabricamos»), D-19 (`og:image`), D-20 (MAQUILA 404). Textos de `content/home.ts` pendientes de aprobación del cliente. JS de primera carga: 140.6 kB gzip (presupuesto 150 kB) |
 | 4–6 | ⏳ Pendientes | — |
 
 ### Fase 1 — Configuración y estructura base
@@ -882,7 +883,7 @@ Convenciones: **ID** = `F<fase>-<n>`. Una tarea = un commit (o un PR pequeño). 
 | **D-08** | **Texto literal** de los dos mensajes de bienvenida de WhatsApp | F4-02 | Copiar del botón actual o redactar y validar |
 | **D-09** | Registro de tratamiento: **usted** vs tú | F3 | **Usted** |
 | **D-10** | Grafía de «Capuccinos» (capuchinos / cappuccinos) | F3-03 | *Capuchinos* (español) — validar |
-| **D-11** | URL exacta de «la tienda» (home del catálogo) para el CTA «Conoce Nuestro Catálogo» | F3-02 | Confirmar; hasta entonces apuntar a las categorías conocidas |
+| ~~**D-11**~~ | ~~URL exacta de «la tienda»~~ | — | **RESUELTO 2026-11-04:** `/tienda/` redirige a la raíz; la tienda **es la raíz** de `https://www.shaddaicolombia.com/`. El CTA «Conoce nuestro catálogo» apunta a `catalogUrl` (`content/channels.ts`) |
 | **D-12** | Gestor de paquetes | F1-02 | npm (como `my-app`) |
 | **D-13** | Textos para **VENDING, MAQUILA y RETAIL** más allá de su definición de una línea | F3-04 | Usar solo la definición del MD hasta recibirlos |
 | **D-14** | ¿Se conserva el **botón flotante de WhatsApp** del sitio actual en todas las páginas? ¿Con cuál mensaje (asesoría o cotizar)? | F2-08 | Conservarlo, con mensaje de asesoría; oculto en Contáctenos si estorba al formulario |
@@ -890,6 +891,7 @@ Convenciones: **ID** = `F<fase>-<n>`. Una tarea = un commit (o un PR pequeño). 
 | **D-16** | ¿Antes de publicar se desea **antispam reforzado** (p. ej. Cloudflare Turnstile) además del *honeypot*? | F4-06 | *Honeypot* en v1; Turnstile solo si hay spam real |
 | **D-17** | Dirección de mapa embebible (`iframe`) si se quiere mapa interactivo | F4-08 | Solo enlace «Cómo llegar» si no se provee |
 | **D-18** | **¿Shaddai fabrica o solo distribuye?** El flyer de redes del sitio actual dice «Somos fabricantes» (y «SIN problemas de compactación», «Excelente espuma y cremosidad»); el texto del sitio dice que *no producen todo lo que venden*. Afecta al hero, la historia y «La mejor taza servida» | F3-02 (bloquea el mensaje principal) | No afirmar ninguna de las dos hasta confirmar; usar la formulación del MD («selecciona para distribuir») |
+| **D-20** | `https://www.shaddaicolombia.com/categoria/maquila/` responde **404** en el sitio actual (verificado 2026-11-04) aunque el MD la lista; HORECA, VENDING y RETAIL responden 200. ¿La categoría se renombró, está vacía o se retiró? | F3 (ya mitigado) | Mientras no se aclare, la tarjeta MAQUILA ofrece «Consultar por WhatsApp» en lugar de un enlace roto (`href` ausente en `content/channels.ts`) |
 | **D-19** | ¿Es ese flyer (portrait 853×1066) la imagen que se quiere para redes? Si no, diseñar un `og:image` 1200×630 | F3-09 | Crear uno nuevo con logo + producto |
 
 ---

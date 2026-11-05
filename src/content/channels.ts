@@ -10,6 +10,12 @@ import { env } from "@/lib/env";
  */
 const legacy = (path: string) => `${env.legacySiteUrl}${path}`;
 
+/**
+ * Catálogo/tienda del sitio actual. Verificado el 2026-11-04: `/tienda/` redirige a la raíz,
+ * es decir, la tienda ES la raíz del sitio actual (D-11 resuelto).
+ */
+export const catalogUrl = legacy("/");
+
 export const channels: Channel[] = [
   {
     slug: "horeca",
@@ -34,7 +40,8 @@ export const channels: Channel[] = [
     slug: "maquila",
     name: "MAQUILA",
     shortDescription: "Producción para terceros",
-    href: legacy("/categoria/maquila/"),
+    // TODO(D-20): https://www.shaddaicolombia.com/categoria/maquila/ responde 404 en el sitio actual
+    // (verificado el 2026-11-04) aunque el MD la lista. Sin `href`, la UI ofrece consulta por WhatsApp.
   },
   {
     slug: "retail",

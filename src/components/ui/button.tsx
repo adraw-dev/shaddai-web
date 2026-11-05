@@ -73,6 +73,7 @@ export function LinkButton({ href, variant = "primary", size = "md", className, 
       {...rest}
     >
       {children}
+      {external ? <span className="sr-only"> (se abre en una pestaña nueva)</span> : null}
     </a>
   );
 }

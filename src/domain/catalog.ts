@@ -31,7 +31,8 @@ export type Channel = {
   /** Productos que Shaddai menciona para el canal. */
   highlights?: string[];
   image?: Media;
-  href: string;
+  /** Página del canal en el catálogo. Ausente = no hay enlace válido (se consulta por WhatsApp). */
+  href?: string;
 };
 
 export type ProductLine = {

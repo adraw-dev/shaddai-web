@@ -10,6 +10,11 @@
 export const advisoryMessage =
   "¡Hola! Quisiera recibir asesoría personalizada con mi pedido.";
 
+/** Consulta sobre un canal comercial (p. ej. MAQUILA, que no tiene página de catálogo válida). */
+export function channelInquiryMessage(channelName: string): string {
+  return `Hola, me interesa el canal ${channelName} de Shaddai Insumos S.A.S. y quisiera más información.`;
+}
+
 /** Flujo de cotización: el dato que Shaddai necesita es nombre + ciudad de envío (MD §10). */
 export function quoteMessage(details?: { name?: string; city?: string }): string {
   const name = details?.name?.trim();

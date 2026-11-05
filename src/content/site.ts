@@ -40,6 +40,16 @@ export const siteConfig = {
     { days: "Domingos y festivos", time: "Cerrado" },
   ],
 
+  /** Mismo horario en forma estructurada (para JSON-LD). Mantener sincronizado con `hours`. */
+  hoursSpec: [
+    {
+      days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "08:00",
+      closes: "16:00",
+    },
+    { days: ["Saturday"], opens: "08:00", closes: "11:00" },
+  ],
+
   /** TODO(D-15): el enlace de Facebook es largo; pedir la URL corta oficial. */
   social: {
     facebook:

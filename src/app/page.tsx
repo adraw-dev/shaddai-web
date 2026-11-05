@@ -1,29 +1,42 @@
-import { WhatsAppIcon } from "@/components/icons";
-import { LinkButton } from "@/components/ui/button";
-import { Heading } from "@/components/ui/heading";
-import { Section } from "@/components/ui/section";
-import { Text } from "@/components/ui/text";
+import type { Metadata } from "next";
+import { catalogUrl } from "@/content/channels";
 import { quoteMessage } from "@/content/whatsapp-messages";
+import { Channels } from "@/features/home/channels";
+import { Hero } from "@/features/home/hero";
+import { ProductLines } from "@/features/home/product-lines";
+import { QuoteCta } from "@/features/home/quote-cta";
+import { Story } from "@/features/home/story";
+import { ValueProp } from "@/features/home/value-prop";
+import { getChannels, getProductLines } from "@/lib/catalog";
+import { baseOpenGraph, jsonLdScript, organizationJsonLd } from "@/lib/seo";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
-/** Página provisional: la Landing real se construye en la Fase 3. */
-export default function Home() {
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+  openGraph: { ...baseOpenGraph, url: "/" },
+};
+
+/**
+ * Landing. La ruta solo compone secciones (plan §8.1); el marcado vive en features/home.
+ * Orden pensado para la pregunta del comprador: qué venden → ¿atienden mi negocio? → ¿por qué
+ * confiar? → ¿quiénes son? → ¿cómo cotizo?
+ */
+export default async function Home() {
+  const [lines, channels] = await Promise.all([getProductLines(), getChannels()]);
+  const quoteUrl = buildWhatsAppUrl(quoteMessage());
+
   return (
     <main className="flex flex-1 flex-col">
-      <Section tone="brand" labelledBy="titulo" className="flex flex-1 items-center">
-        <div className="max-w-2xl space-y-6">
-          <Heading level={1} size="display" id="titulo">
-            Shaddai Colombia
-          </Heading>
-          <Text variant="lead" muted>
-            Nuestra nueva página web está en construcción.
-          </Text>
-          <LinkButton href={buildWhatsAppUrl(quoteMessage())} size="lg">
-            <WhatsAppIcon size={22} />
-            Cotizar por WhatsApp
-          </LinkButton>
-        </div>
-      </Section>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(organizationJsonLd()) }}
+      />
+      <Hero quoteUrl={quoteUrl} catalogUrl={catalogUrl} />
+      <ProductLines lines={lines} catalogUrl={catalogUrl} />
+      <Channels channels={channels} />
+      <ValueProp />
+      <Story />
+      <QuoteCta />
     </main>
   );
 }

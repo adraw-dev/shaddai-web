@@ -8,6 +8,7 @@ import { SkipLink } from "@/components/layout/skip-link";
 import { WhatsAppFab } from "@/components/layout/whatsapp-fab";
 import { siteConfig } from "@/content/site";
 import { env } from "@/lib/env";
+import { baseOpenGraph, isIndexable, siteDescription, siteTitle } from "@/lib/seo";
 
 /** Titulares con carácter (plan §5.3). Autoalojada por next/font en el build. */
 const display = Bricolage_Grotesque({
@@ -25,10 +26,12 @@ const body = Hanken_Grotesk({
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.siteUrl),
-  title: siteConfig.brandName,
-  description: "Nueva página web de Shaddai Colombia, en construcción.",
-  // TODO(F3-09): metadatos reales e indexación según NEXT_PUBLIC_SITE_ENV.
-  robots: { index: false, follow: false },
+  title: { default: siteTitle, template: `%s | ${siteConfig.brandName}` },
+  description: siteDescription,
+  applicationName: siteConfig.brandName,
+  // Solo producción se indexa (plan §10.1); en previews/local, noindex.
+  robots: isIndexable ? { index: true, follow: true } : { index: false, follow: false },
+  openGraph: baseOpenGraph,
 };
 
 export const viewport: Viewport = {

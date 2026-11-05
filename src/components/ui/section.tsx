@@ -10,14 +10,14 @@ export type SectionTone = "brand" | "cream" | "cream-warm" | "ink";
  *   --link   → enlaces de énfasis
  * Así los componentes internos no conocen el fondo en el que viven.
  */
+const dark = "text-cream-50 [--muted:var(--color-brand-300)] [--link:var(--color-accent-soft)] [--error:var(--color-accent-soft)]";
+const light = "text-ink [--muted:var(--color-muted)] [--link:var(--color-brand-700)] [--error:var(--color-accent)]";
+
 const tones: Record<SectionTone, string> = {
-  brand:
-    "bg-brand-900 text-cream-50 [--muted:var(--color-brand-300)] [--link:var(--color-accent-soft)]",
-  ink: "bg-ink text-cream-50 [--muted:var(--color-brand-300)] [--link:var(--color-accent-soft)]",
-  cream:
-    "bg-cream-50 text-ink [--muted:var(--color-muted)] [--link:var(--color-brand-700)]",
-  "cream-warm":
-    "bg-cream-100 text-ink [--muted:var(--color-muted)] [--link:var(--color-brand-700)]",
+  brand: `bg-brand-900 ${dark}`,
+  ink: `bg-ink ${dark}`,
+  cream: `bg-cream-50 ${light}`,
+  "cream-warm": `bg-cream-100 ${light}`,
 };
 
 type SectionProps = {
