@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { catalogUrl } from "@/content/channels";
 import { quoteMessage } from "@/content/whatsapp-messages";
 import { Channels } from "@/features/home/channels";
 import { Hero } from "@/features/home/hero";
@@ -7,7 +6,7 @@ import { ProductLines } from "@/features/home/product-lines";
 import { QuoteCta } from "@/features/home/quote-cta";
 import { Story } from "@/features/home/story";
 import { ValueProp } from "@/features/home/value-prop";
-import { getChannels, getProductLines } from "@/lib/catalog";
+import { getCatalogUrl, getChannels, getProductLines } from "@/lib/catalog";
 import { baseOpenGraph, jsonLdScript, organizationJsonLd } from "@/lib/seo";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
@@ -24,6 +23,7 @@ export const metadata: Metadata = {
 export default async function Home() {
   const [lines, channels] = await Promise.all([getProductLines(), getChannels()]);
   const quoteUrl = buildWhatsAppUrl(quoteMessage());
+  const catalogUrl = getCatalogUrl();
 
   return (
     <main className="flex flex-1 flex-col">

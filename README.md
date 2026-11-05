@@ -31,11 +31,25 @@ Para ver el build estático localmente: `npx serve out` (no es dependencia del p
 
 Plantilla completa y comentada en [`.env.example`](.env.example). `src/lib/env.ts` las valida y **hace fallar el build** si falta alguna obligatoria. Reglas:
 
-- Todas son `NEXT_PUBLIC_*` (visibles en el navegador): **nunca** poner secretos.
+- Las `NEXT_PUBLIC_*` son visibles en el navegador: **nunca** poner secretos en ellas. Las del catálogo (`CATALOG_SOURCE`, `STRAPI_URL`, `STRAPI_API_TOKEN`) son solo de build.
 - Configurar las **mismas** variables en Vercel y Cloudflare Pages, en Production y Preview.
 - `NEXT_PUBLIC_SITE_ENV=production` exige además `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_WHATSAPP_NUMBER` y `NEXT_PUBLIC_LEGACY_SITE_URL`.
 - Si se define `NEXT_PUBLIC_CONTACT_ENDPOINT` (el formulario de Contáctenos envía datos), en producción también es obligatoria `NEXT_PUBLIC_PRIVACY_POLICY_URL`. Sin endpoint, el formulario solo ofrece el camino por WhatsApp.
 - En **Git Bash para Windows**, un valor que empieza por `/` (p. ej. `NEXT_PUBLIC_PRIVACY_POLICY_URL=/politica/`) se convierte en una ruta de disco al pasarlo en la línea de comandos. Use `MSYS_NO_PATHCONV=1` o configúrelo en `.env.local`/en la plataforma de despliegue.
+
+## Catálogo con Strapi (`cms/`)
+
+El CMS es un proyecto Node aparte en [`cms/`](cms/) (Strapi 5, SQLite en local). Plan, modelo y decisiones: [`docs/PLAN_STRAPI.md`](docs/PLAN_STRAPI.md).
+
+```bash
+cd cms && npm install            # primera vez
+cd cms && npm run seed           # carga los 78 productos de docs/referencia/productos (idempotente)
+cd cms && npm run token:local    # token de solo lectura → .env.local (CATALOG_SOURCE=strapi)
+cd cms && npm run develop        # panel en http://localhost:1337/admin (crear el usuario admin al entrar)
+npm run build                    # con Strapi encendido: genera /productos/ en out/
+```
+
+Sin `CATALOG_SOURCE=strapi` el sitio se construye como antes (sin `/productos/`; los CTA van a la tienda actual).
 
 ## Despliegue (Vercel y Cloudflare Pages)
 

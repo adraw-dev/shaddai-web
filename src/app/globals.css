@@ -1,4 +1,10 @@
 @import "tailwindcss";
+/*
+ * Fuentes explícitas del catálogo (además de la detección automática). Un `next dev` ya encendido
+ * cuando se crearon estas carpetas no las escaneó y servía el CSS sin sus clases (2026-11-05).
+ */
+@source "../features/catalog";
+@source "../app/productos";
 
 /*
  * Tokens de diseño — docs/PLAN_DESARROLLO.md §5.

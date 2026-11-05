@@ -1,4 +1,5 @@
 import { siteConfig } from "@/content/site";
+import type { Product } from "@/domain/catalog";
 import { absoluteUrl, env } from "@/lib/env";
 
 /**
@@ -57,6 +58,35 @@ export function organizationJsonLd() {
       closes: slot.closes,
     })),
     sameAs: [social.facebook, social.instagram],
+  };
+}
+
+/**
+ * Datos estructurados de un producto del catálogo (schema.org/Product). La oferta solo se publica
+ * si el precio es visible; `availability` no se declara porque la fuente no lo garantiza.
+ */
+export function productJsonLd(product: Product, path: string) {
+  const image = product.images.flatMap((media) => media.variants.at(-1)?.src ?? []);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.shortDescription || undefined,
+    sku: product.sku,
+    image,
+    category: product.category.name,
+    brand: product.brand ? { "@type": "Brand", name: product.brand } : undefined,
+    url: absoluteUrl(path),
+    offers:
+      product.price?.visible
+        ? {
+            "@type": "Offer",
+            price: product.price.amount,
+            priceCurrency: product.price.currency,
+            url: absoluteUrl(path),
+            seller: { "@id": absoluteUrl("/#organizacion") },
+          }
+        : undefined,
   };
 }
 

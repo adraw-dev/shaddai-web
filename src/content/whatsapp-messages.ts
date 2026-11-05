@@ -28,6 +28,12 @@ export function channelInquiryMessage(channelName: string): string {
   return `Hola, me interesa el canal ${channelName} de Shaddai Insumos S.A.S. y quisiera más información.`;
 }
 
+/** Cotización de un producto del catálogo (plan §12.6): nombre, presentación y referencia. */
+export function productQuoteMessage(product: { name: string; presentation?: string; sku?: string }): string {
+  const details = [product.presentation, product.sku ? `ref. ${product.sku}` : undefined].filter(Boolean).join(", ");
+  return `Hola, quisiera una cotización de ${product.name}${details ? ` (${details})` : ""}. ¿Me pueden ayudar?`;
+}
+
 /** Flujo de cotización: el dato que Shaddai necesita es nombre + ciudad de envío (MD §10). */
 export function quoteMessage(details?: { name?: string; city?: string }): string {
   const name = details?.name?.trim();
