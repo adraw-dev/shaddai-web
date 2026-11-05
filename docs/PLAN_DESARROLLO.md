@@ -66,12 +66,12 @@ La web reemplaza **progresivamente** al sitio actual (WordPress + WooCommerce). 
 | Orden | Sección | ID ancla | Tono de fondo | Propósito | Contenido (ver sección 4) |
 |---|---|---|---|---|---|
 | 0 | **Header** (global) | — | transparente → sólido al scroll | Navegar + CTA constante | Logo, nav: Productos · Canales · Nosotros · Contáctenos; botón «Cotizar por WhatsApp» |
-| 1 | **Hero** | `#inicio` | Morado de marca (envolvente) | Declarar la propuesta y llevar a la acción | H1 basado en «Insumos de Calidad» / «Procuramos por el sabor de un buen café»; CTA primario **Cotizar por WhatsApp**; CTA secundario **Conoce Nuestro Catálogo**; imagen de producto real |
+| 1 | **Hero** | `#inicio` | Espresso de marca (envolvente) | Declarar la propuesta y llevar a la acción | H1 basado en «Insumos de Calidad» / «Procuramos por el sabor de un buen café»; CTA primario **Cotizar por WhatsApp**; CTA secundario **Conoce Nuestro Catálogo**; imagen de producto real |
 | 2 | **Líneas destacadas** | `#productos` | Crema | Qué vende Shaddai | **Lattes**, **Café**, **Capuccinos** (descripciones del MD) + CTA al catálogo. *Incluye* el mensaje «Café fresco» (se fusiona aquí y en 5; no es sección aparte) |
-| 3 | **Canales comerciales** | `#canales` | Morado/tinta | Que el visitante se reconozca | **HORECA** (destacado, con el detalle del MD), **VENDING**, **MAQUILA**, **RETAIL** — cada uno con enlace a su categoría actual |
+| 3 | **Canales comerciales** | `#canales` | Espresso/tinta | Que el visitante se reconozca | **HORECA** (destacado, con el detalle del MD), **VENDING**, **MAQUILA**, **RETAIL** — cada uno con enlace a su categoría actual |
 | 4 | **La mejor taza servida** | `#calidad` | Crema | Propuesta de valor + confianza | Tres pilares (*El mejor café · Leche de calidad · Mezclas perfectas*), sello **BPM**, cita sobre la primera impresión del café |
 | 5 | **Nuestra historia** | `#nosotros` | Crema cálida | Humanizar y cerrar confianza | Origen (máquinas → insumos), frase poética del grano, video de YouTube (con fachada de carga diferida) |
-| 6 | **Cierre: cotizar** | `#cotizar` | Morado de marca | Convertir | Mini-flujo *nombre + ciudad de envío* → abre WhatsApp con mensaje precargado; enlace a Contáctenos |
+| 6 | **Cierre: cotizar** | `#cotizar` | Espresso de marca | Convertir | Mini-flujo *nombre + ciudad de envío* → abre WhatsApp con mensaje precargado; enlace a Contáctenos |
 | — | **Footer** (global) | — | Tinta | Datos de referencia | Logo, razón social, contacto resumido, horarios, redes, legal |
 
 **Reglas de composición** (derivadas de `no-ai-design-slop`; ver 5.6):
@@ -136,7 +136,7 @@ Pensado a partir del dato que el MD dice que Shaddai necesita para cotizar: **no
 | Facebook | https://es-la.facebook.com/pages/category/Food---Beverage/Shaddai-Insumos-104529957585714/ |
 | Instagram | https://www.instagram.com/shaddai.insumos/ |
 | Video | YouTube `NYPI5JoMi4M` (usar `youtube-nocookie.com/embed/…` con fachada) |
-| Color de marca | `#25094b` |
+| Color `theme-color` del sitio actual | `#25094b` — **no se usa** en la nueva web (paleta Espresso, 2026-11-05) |
 | Mensaje WhatsApp — Asesoría | Saludo cercano con emojis; ofrece asesoría personalizada con los pedidos y pregunta en qué pueden ayudar |
 | Mensaje WhatsApp — Cotizar | Agradece el interés en los productos de Shaddai Insumos S.A.S. y pide **nombre y lugar de envío** para responder con tiempos de entrega y costos. Botón: «Cotizar» |
 
@@ -184,40 +184,39 @@ Las categorías del sitio actual existen y tienen URL conocida (MD §1): `/categ
 
 ## 5. Lineamientos de diseño y experiencia de usuario
 
-> **Estado de la dirección visual:** lo de abajo es una **propuesta fundamentada**. La skill `impeccable` exige confirmar la dirección con el usuario antes de construir (comando `shape` / flujo *new-work*). Eso es la tarea **F2-02**; hasta su cierre, los valores marcados «propuesta» no son definitivos. **Fijo (no negociable):** color de marca `#25094b`; animación sutil; rendimiento primero.
+> **Estado de la dirección visual:** lo de abajo es una **propuesta fundamentada**. La skill `impeccable` exige confirmar la dirección con el usuario antes de construir (comando `shape` / flujo *new-work*). Eso es la tarea **F2-02**; hasta su cierre, los valores marcados «propuesta» no son definitivos. **Fijo (no negociable):** el rojo y el cobre del logo como colores de marca; animación sutil; rendimiento primero. *(La paleta final, «Espresso», quedó confirmada el 2026-11-05 — ver 5.2.)*
 
 ### 5.1 Tesis visual (propuesta)
 
-*Abastecimiento serio con calidez de oficio.* Una marca de distribución B2B que se siente confiable (morado profundo, tipografía firme) y al mismo tiempo huele a café (crema, tostado, caramelo). Producto real como protagonista; ninguna decoración sin función.
+*Abastecimiento serio con calidez de oficio.* Una marca de distribución B2B que se siente confiable (marrón café profundo, tipografía firme) y al mismo tiempo huele a café (crema, tostado, cobre). Producto real como protagonista; ninguna decoración sin función.
 
-**Estrategia de color: _Committed_** (impeccable): el morado de marca ocupa 30–60 % de la superficie en bandas de página completa (hero, canales, cierre), alternadas con crema. No es un acento esparcido sobre fondo blanco.
+**Estrategia de color: _Committed_** (impeccable): el espresso de marca ocupa 30–60 % de la superficie en bandas de página completa (hero, canales, cierre), alternadas con crema. No es un acento esparcido sobre fondo blanco.
 
 **Escena física (decide claro/oscuro):** un dueño de cafetería o comprador de un negocio en Medellín revisa proveedores desde el celular, con luz de día, entre servicios. → **Un solo tema claro-dominante, mobile-first.** No hay selector de modo oscuro.
 
-### 5.2 Paleta (**CONFIRMADA el 2026-11-04**)
+### 5.2 Paleta («Espresso», **CONFIRMADA el 2026-11-05**)
 
-> **Cambio respecto a la propuesta original:** al revisar el logo real (óvalo **rojo** `#ed2121` con borde cobre `#7c341c→#f25d2a`, franja negra y letras crema) se vio que el morado `#25094b` solo es el `theme-color` del sitio actual. El usuario confirmó: **morado como banda envolvente + crema como base + el rojo del logo como acento** (oscurecido para cumplir AA). El «caramelo» de la propuesta inicial era inventado y se eliminó.
+> **Historial de la decisión:** (1) 2026-11-04: se confirmó morado `#25094b` (el `theme-color` del sitio actual) + crema + el rojo del logo como acento. (2) 2026-11-05: el usuario descartó el morado y, entre cuatro alternativas derivadas del logo — **A. Espresso**, B. Borgoña, C. Carbón y cobre, D. Crema con café —, eligió **A. Espresso**. Los colores reales de la marca son los del logo: rojo `#ed2121`, cobre `#7c341c → #f25d2a`, negro y crema; el resto son derivados. El morado ya no se usa en ningún lugar del sitio.
 
-`#25094b` (sitio actual) y el rojo/cobre (logo) son los colores reales de la marca; el resto son derivados. Implementados en `src/app/globals.css`. Contrastes calculados (WCAG 2.x) el 2026-11-04:
+Implementada en `src/app/globals.css`. Contrastes calculados (WCAG 2.x) el 2026-11-05:
 
 | Token | Valor | Uso | Contraste verificado |
 |---|---|---|---|
-| `--color-brand-900` | `#25094b` | Marca, fondos envolventes, texto sobre crema | sobre crema-50: **16.0:1** |
-| `--color-brand-700` | `#4a1d8a` | Enlaces, énfasis secundario | sobre crema-50: **10.6:1** |
-| `--color-brand-300` | `#c9b6ee` | Texto secundario sobre morado | sobre brand-900: **9.4:1** |
+| `--color-espresso-900` | `#2b1a14` | Bandas envolventes (hero, canales, cierre), header; títulos sobre crema | crema-50 sobre él: **15.5:1**; él sobre crema-50: **15.5:1**, sobre crema-100: **14.0:1** |
+| `--color-espresso-700` | `#4a2f24` | Hover y tintas sobre el espresso; barra de scroll | crema-50 sobre él: **11.3:1** |
+| `--color-sand-300` | `#d8c3ae` | Texto secundario sobre espresso/ink | sobre espresso-900: **9.8:1**; sobre ink: **11.0:1** |
 | `--color-cream-50` | `#fbf6ee` | Fondo base claro | — |
-| `--color-cream-100` | `#f3eadb` | Fondo de sección cálida | texto brand-900: **14.4:1** |
-| `--color-ink` | `#1b1230` | Texto principal | sobre crema-50: **16.6:1** |
-| `--color-roast` | `#4a2c1a` | Detalles «tostado» | sobre crema-100: **10.6:1** |
+| `--color-cream-100` | `#f3eadb` | Fondo de sección cálida | ink sobre él: **15.8:1** |
+| `--color-ink` | `#1a0f0b` | Texto principal; fondo del footer | sobre crema-50: **17.5:1** |
 | `--color-accent` | `#c4161c` | Acento / CTA principal (rojo del logo, oscurecido) | texto crema sobre el botón: **5.6:1**; como texto sobre crema-50: **5.6:1** |
 | `--color-accent-strong` | `#a50f16` | Hover del CTA | blanco: **7.8:1** |
-| `--color-accent-soft` | `#ff6b6b` | Acento como **texto** sobre morado | sobre brand-900: **6.2:1** |
-| `--color-copper` | `#7c341c` | Detalle cálido (borde del logo) | sobre crema-50: **8.3:1** |
-| `--color-muted` | `#5b4a78` | Texto secundario sobre claro | sobre crema-50: **7.2:1** |
+| `--color-accent-soft` | `#ff8a78` | Acento como **texto** sobre espresso/ink | sobre espresso-900: **7.3:1**; sobre ink: **8.2:1** |
+| `--color-copper` | `#7c341c` | Enlaces y detalle sobre claro (borde del logo) | sobre crema-50: **8.3:1**; sobre crema-100: **7.4:1** |
+| `--color-muted` | `#6b5648` | Texto secundario sobre claro | sobre crema-50: **6.4:1**; sobre crema-100: **5.8:1** |
 | `--color-whatsapp` | `#0e7a43` (hover `#0b6e3b`) | **Solo** el botón flotante de WhatsApp | blanco: **5.4:1** |
 
-> ⚠️ **Reglas de color:** (1) el rojo **exacto** del logo (`#ed2121`) da solo **4.3:1** con texto blanco y **4.0:1** sobre crema → no usarlo como fondo de texto ni como texto; vive solo en el logo. (2) El borde del botón rojo sobre morado es **2.9:1**; lo que identifica el control es su etiqueta (5.6:1). (3) Sobre morado, el texto de acento usa `accent-soft`, no `accent`.
-> Definir en `@theme` de Tailwind v4 (colores en OKLCH o hex), con alias semánticos (`--surface`, `--on-surface`, `--accent`) para no usar tonos crudos en los componentes.
+> ⚠️ **Reglas de color:** (1) el rojo **exacto** del logo (`#ed2121`) da solo **4.3:1** con texto blanco y **4.0:1** sobre crema → no usarlo como fondo de texto ni como texto; vive solo en el logo. (2) El borde del botón rojo sobre espresso es **2.8:1**; lo que identifica el control es su etiqueta (5.6:1). (3) Sobre espresso/ink, el texto de acento usa `accent-soft`, no `accent`. (4) El espresso (`#2b1a14`) y el ink del footer (`#1a0f0b`) son tonos muy cercanos (≈ 1.2:1): el borde redondeado de la «hoja» del footer sobre la banda de cierre es sutil. Se aceptó; si se quiere más separación, aclarar la banda de cierre o usar crema en el footer. (5) El óvalo del logo (`#ed2121`) contra el espresso da **3.8:1** (contorno visible gracias a su borde cobre).
+> Definir en `@theme` de Tailwind v4 con alias semánticos para no usar tonos crudos en los componentes.
 
 ### 5.3 Tipografía (propuesta — por validar en F2-02)
 
@@ -257,7 +256,7 @@ Las categorías del sitio actual existen y tienen URL conocida (MD §1): `/categ
 |---|---|---|---|
 | Hero | Entrada escalonada del H1 por palabras, **una vez** | **CSS puro** (`<WordReveal>`: animación al cargar con `backwards`). Diferencia deliberada con la skill: sin `IntersectionObserver` ni estado oculto dependiente de JS, para no retrasar el LCP esperando la hidratación | `staggered-word-reveal` |
 | Secciones | Revelado al entrar al viewport (fade + 16–20 px), **una vez** | Componente `Reveal` (IO) | `transitions-dev` · «Texts reveal» |
-| Entre secciones | **«Hojas»**: cada sección se superpone a la anterior con borde superior redondeado (radio = solape, 40 px / 48 px desde 768 px) y cambia de tono (morado ↔ crema ↔ crema cálida). Footer incluido | CSS estático (`Section sheet`, `--sheet-overlap`) | `impeccable` (`layout`, `animate`) |
+| Entre secciones | **«Hojas»**: cada sección se superpone a la anterior con borde superior redondeado (radio = solape, 40 px / 48 px desde 768 px) y cambia de tono (espresso ↔ crema ↔ crema cálida). Footer incluido | CSS estático (`Section sheet`, `--sheet-overlap`) | `impeccable` (`layout`, `animate`) |
 | Header | Pasa de transparente a sólido al hacer scroll | CSS + 1 listener pasivo / IO | `make-interfaces-feel-better` |
 | Botones | Hover ≤ 150 ms, `scale(0.96)` al presionar, flecha desplazable en enlaces «ver más» | CSS | `transitions-dev` · «Learn more hover»; `make-interfaces-feel-better` |
 | Menú móvil | Despliegue con origen consciente | CSS | `transitions-dev` · «Menu dropdown»/«Panel reveal» |
@@ -267,7 +266,7 @@ Las categorías del sitio actual existen y tienen URL conocida (MD §1): `/categ
 **Reglas duras**
 - Solo animar `transform` y `opacity` (y `filter` puntual). **Nunca** `transition: all`. `will-change` solo si hay tirones medibles.
 - **`prefers-reduced-motion: reduce`** → sin desplazamientos ni escalonados; los contenidos aparecen completos y estáticos.
-- Sin JS el contenido **debe ser visible** (los estados ocultos solo se aplican cuando JS ya está activo).
+- Sin JS el contenido **debe ser visible**: los estados ocultos solo se aplican dentro de `@media (scripting: enabled)`. **No** marcar `<html>` con una clase mediante un script en línea (fue un error de F2–F5: provocaba un error de hidratación y, en desarrollo, recargas completas al editar; corregido el 2026-11-05).
 - El movimiento nunca es el único canal de feedback: siempre hay cambio de color, texto o ícono.
 - Sin parallax, sin scroll-jacking, sin cursores personalizados, sin partículas, sin efectos de entrada en hover repetitivo.
 - **Presupuesto:** ningún efecto puede degradar INP/LCP/CLS (objetivos en 10.3). Si una animación no cabe en CSS o necesita librería → pasa por la *puerta GSAP* (7.3).
@@ -279,7 +278,7 @@ Aplicar la skill `no-ai-design-slop` como filtro pasivo. Específicamente para e
 - ❌ «Eyebrows» en píldora sobre cada título, numeraciones decorativas, etiquetas de relleno.
 - ❌ Degradados tipo *blob*, vidrio esmerilado, brillos/halos sin función, rejillas de fondo decorativas.
 - ❌ Métricas, logos de clientes, testimonios o insignias inventados.
-- ❌ Fondo crema + serif de moda + terracota «por defecto» sin relación con la marca (la paleta aquí parte de `#25094b`).
+- ❌ Fondo crema + serif de moda + terracota «por defecto» sin relación con la marca (la paleta aquí parte del logo: rojo, cobre y espresso).
 - ❌ Tarjetas dentro de tarjetas; sombras duras gratuitas.
 - ✅ Cada elemento decorativo supera la **prueba de eliminación**: si se quita y la claridad mejora, se quita.
 
@@ -298,6 +297,36 @@ Aplicar la skill `no-ai-design-slop` como filtro pasivo. Específicamente para e
 - Mensajes de error: qué pasó + cómo corregir, en tono neutro y en el mismo registro (usted).
 - Estados vacíos/errores de red/éxito del formulario diseñados, no por defecto del navegador.
 - Enlaces `tel:`/`mailto:`/`wa.me` con texto visible y `aria-label` solo cuando el texto no basta.
+
+### 5.9 Propuesta B «Aurora 2.5D» (rama `feat/propuesta-visual-25d`, 2026-11-05)
+
+> **Estado:** variante visual **alternativa**, pedida por el usuario sobre la rama `docs/plan-desarrollo-web`. **No reemplaza** a la paleta «Espresso» (5.2) mientras el usuario no la apruebe; vive solo en esta rama. Mientras viva en ella, **sustituye** a 5.2, 5.5 y 5.6 en lo que se indica abajo (el usuario la pidió expresamente, así que cuenta como decisión confirmada para esta rama).
+
+**Qué cambia respecto a «Espresso»**
+
+| Tema | Espresso (main del plan) | Aurora 2.5D (esta rama) |
+|---|---|---|
+| Color | Bandas sólidas espresso/crema | Degradados suaves: durazno, damasco, rosa, mantequilla y coral pastel (derivados del logo). Una sola banda profunda (`dusk`, rosado-café en degradado) para el ritmo |
+| Profundidad | Hojas de color, sin sombras elevadas | **2.5D**: capas con `perspective` + `translateZ`, sombras de contacto, hojas con sombra superior, placas apiladas (`DepthFrame`), tarjetas con inclinación (`TiltCard`) |
+| Hero | Título + foto estática | Aurora animada, escenario con disco esmaltado, foto inclinada, 3 tazas recortadas a distinta altura, chips de canales y granos que flotan, paralaje con el puntero y con el scroll, cinta en marcha |
+| Skills usadas | `impeccable`, `no-ai-design-slop`, … | + `add-mouse-driven-orbit` (puntero amortiguado, **sin WebGL**), `atmosphere-background` (aurora en CSS), `transitions-dev` («Card hover tilt») |
+
+**Alcance técnico:** sin dependencias nuevas, sin WebGL/Three.js (se respeta 6.2: «2.5D», no 3D). Solo CSS + dos componentes cliente pequeños (`HeroStage`, `TiltCard`).
+
+**Excepciones aprobadas a 5.5/5.6 en esta rama** (todo lo demás sigue vigente: `transform`/`opacity`, sin `transition: all`, contenido visible sin JS, `prefers-reduced-motion`):
+- Degradados y brillos **permitidos** (antes vetados), siempre con función de profundidad y con contraste verificado.
+- Parallax **permitido** solo en el hero y los marcos (puntero amortiguado + `animation-timeline: scroll()` como mejora progresiva). Sigue prohibido el *scroll-jacking* y el suavizado de scroll.
+- Animaciones continuas **permitidas** en elementos decorativos del hero y del cierre: deriva de la aurora, flotación de capas, cinta en marcha, brillo del título. Todas se apagan con `prefers-reduced-motion`; el puntero queda en una pose fija diseñada.
+- El brillo del título (`background-position`) anima un área pequeña de texto y solo pinta (no cambia el layout); es la única excepción a «solo `transform`/`opacity`».
+- Vidrio esmerilado (`backdrop-blur`) solo en el header fijo y en el panel del formulario de cierre.
+- **Header transparente arriba del todo** (pedido del usuario): flota sobre el hero (`-mb` = su alto; las secciones iniciales usan `Section underHeader`) y pasa a crema translúcida con desenfoque y sombra al hacer scroll (`data-scrolled`, ya existente). Solo es transparente con JS (`@media (scripting: enabled)`); sin JS queda sólido para no tapar texto.
+- **Fotos de banco permitidas** (el usuario dio la potestad, 2026-11-05; antes vetadas en 5.4): tres fotos de Pexels, solo ilustrativas y sin marcas de terceros (procedencia y autores en `docs/activos-provisionales.md`). Regla: nunca insinuar que son clientes, instalaciones o productos de Shaddai (D-18); se sustituyen por fotos propias en cuanto existan (D-05).
+
+**Contrastes (WCAG 2.x, calculados el 2026-11-05):** `muted` sobre `aurora` ≥ 5.0:1; sobre `cream-warm` 5.4:1; sobre `cream` 6.2:1. `sunrise` usa espresso-700 como texto secundario (7.4:1) y copper en enlaces (5.4:1). En `dusk`, sobre su punto más claro y con los paneles translúcidos encima: crema 4.6:1, `peach-100` (secundario) y `butter-100` (enlaces) ≥ 4.5:1. Texto con degradado cálido del H1: ≥ 3.4:1 (texto grande); pilares ≥ 5.8:1.
+
+**Móvil:** la escena queda en reposo (sin puntero), solo flota. El escenario asoma bajo el CTA en 390 × 844.
+
+**Pendiente de aprobación (decisión del usuario):** elegir entre «Espresso» y «Aurora 2.5D», o mezclar. Si se aprueba, pasar a main del plan y actualizar `DESIGN.md` (hoy describe Espresso).
 
 ---
 

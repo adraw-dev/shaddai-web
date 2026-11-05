@@ -1,5 +1,7 @@
+import type { CSSProperties } from "react";
 import { Picture } from "@/components/media/picture";
 import { Reveal } from "@/components/motion/reveal";
+import { TiltCard } from "@/components/motion/tilt-card";
 import { LinkButton } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Section } from "@/components/ui/section";
@@ -13,18 +15,30 @@ type ProductLinesProps = {
 };
 
 /**
- * Líneas destacadas. NO es una rejilla de tarjetas iguales: encabezado y acción a la izquierda,
- * lista editorial a la derecha (imagen + nombre + descripción separados por filetes).
- * Las imágenes se muestran por debajo de su tamaño nativo (320 px) para verse nítidas.
+ * Degradado de cada tarjeta por línea (solo estilo). Texto: tinta/espresso-700 sobre pasteles
+ * (≥ 5:1 en el tono más oscuro, damasco).
+ */
+const tints: Record<string, string> = {
+  lattes: "from-butter-200 via-peach-100 to-rose-200",
+  cafe: "from-latte-200 via-peach-200 to-apricot-300",
+  capuccinos: "from-rose-200 via-peach-200 to-butter-200",
+};
+const fallbackTint = "from-peach-100 to-peach-200";
+
+/**
+ * Líneas destacadas (Propuesta B). Tres «escenarios» de degradado distinto con la taza recortada que
+ * sale de la tarjeta (2.5D: la taza vive a más altura que el fondo y flota). El escalón vertical de la
+ * tarjeta central rompe la rejilla uniforme. Con puntero fino, cada tarjeta se inclina y la taza se
+ * levanta (<TiltCard>); en táctil y con movimiento reducido quedan quietas.
  */
 export function ProductLines({ lines, catalogUrl }: ProductLinesProps) {
   const { lines: copy } = homeContent;
 
   return (
     <Section tone="cream" sheet id="productos" labelledBy="lineas-title">
-      <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
-        <div className="space-y-6 lg:pt-4">
-          <Heading id="lineas-title">{copy.title}</Heading>
+      <div className="grid gap-8 lg:grid-cols-2 lg:items-end lg:gap-20">
+        <Heading id="lineas-title">{copy.title}</Heading>
+        <div className="space-y-6">
           <Text variant="lead" muted>
             {copy.intro}
           </Text>
@@ -32,24 +46,32 @@ export function ProductLines({ lines, catalogUrl }: ProductLinesProps) {
             {copy.cta}
           </LinkButton>
         </div>
-
-        <ul className="divide-y divide-ink/15">
-          {lines.map((line, index) => (
-            <Reveal
-              as="li"
-              key={line.slug}
-              delay={index}
-              className="grid grid-cols-[7rem_1fr] items-center gap-6 py-8 first:pt-0 last:pb-0 sm:grid-cols-[11rem_1fr] sm:gap-10"
-            >
-              <Picture media={line.image} sizes="(min-width: 640px) 176px, 112px" className="w-full" />
-              <div className="space-y-2">
-                <Heading level={3}>{line.name}</Heading>
-                <Text muted>{line.description}</Text>
-              </div>
-            </Reveal>
-          ))}
-        </ul>
       </div>
+
+      <ul className="mt-24 grid gap-x-8 gap-y-24 md:grid-cols-3">
+        {lines.map((line, index) => (
+          <Reveal as="li" key={line.slug} delay={index} className={index === 1 ? "md:mt-14" : undefined}>
+            <TiltCard className="h-full rounded-[2rem]">
+              <article
+                className={`relative h-full rounded-[2rem] bg-gradient-to-br ${tints[line.slug] ?? fallbackTint} px-7 pb-9 pt-36 ring-1 ring-white/70 shadow-[inset_0_1px_0_rgb(255_255_255/0.9),0_34px_50px_-30px_rgb(122_52_28/0.55)]`}
+              >
+                <div
+                  className="tilt__pop cup float-slow absolute inset-x-0 -top-14 mx-auto w-48"
+                  style={{ "--float-delay": `${-index * 1.7}s`, "--float-amp": "8px", "--float-rot": "2deg", "--float-dur": `${7 + index}s` } as CSSProperties}
+                >
+                  <Picture media={line.image} sizes="192px" />
+                </div>
+                <div className="space-y-2">
+                  <Heading level={3} className="text-espresso-900">
+                    {line.name}
+                  </Heading>
+                  <Text className="text-espresso-700">{line.description}</Text>
+                </div>
+              </article>
+            </TiltCard>
+          </Reveal>
+        ))}
+      </ul>
     </Section>
   );
 }

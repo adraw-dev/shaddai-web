@@ -4,7 +4,7 @@ import { useEffect, useRef, type CSSProperties, type ElementType, type ReactNode
 
 /**
  * Revelado al entrar en el viewport, UNA sola vez (plan §5.5).
- * - Sin JS el contenido es visible: el estado oculto solo se aplica con <html class="js"> (globals.css).
+ * - Sin JS el contenido es visible: el estado oculto solo se aplica con `@media (scripting: enabled)` (globals.css).
  * - `prefers-reduced-motion`: globals.css deja el contenido visible y sin desplazamiento.
  * - Solo anima `opacity` y `transform`. Máx. 6 elementos por grupo escalonado (delay ≤ ~0.4 s).
  * - Si IntersectionObserver no existe, se muestra de inmediato.

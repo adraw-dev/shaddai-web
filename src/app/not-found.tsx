@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Aurora } from "@/components/motion/aurora";
 import { LinkButton } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Section } from "@/components/ui/section";
@@ -13,7 +14,8 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <main className="flex flex-1 flex-col">
-      <Section tone="brand" labelledBy="no-encontrada" className="flex flex-1 items-center">
+      <Section tone="aurora" underHeader labelledBy="no-encontrada" className="relative isolate flex flex-1 items-center overflow-hidden">
+        <Aurora />
         <div className="max-w-2xl space-y-6">
           <Heading level={1} size="display" id="no-encontrada">
             Página no encontrada

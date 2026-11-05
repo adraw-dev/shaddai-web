@@ -45,7 +45,7 @@ export function MobileNav({ items, ctaHref, ctaLabel }: MobileNavProps) {
         aria-controls={panelId}
         aria-label={open ? "Cerrar menú" : "Abrir menú"}
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex size-11 items-center justify-center rounded-control transition-[background-color,scale] duration-150 ease-ui hover:bg-cream-50/10 active:scale-[0.96]"
+        className="inline-flex size-11 items-center justify-center rounded-control transition-[background-color,scale] duration-150 ease-ui hover:bg-espresso-900/8 active:scale-[0.96]"
       >
         {open ? <CloseIcon size={24} /> : <MenuIcon size={24} />}
       </button>
@@ -54,7 +54,7 @@ export function MobileNav({ items, ctaHref, ctaLabel }: MobileNavProps) {
       <div
         id={panelId}
         inert={!open}
-        className={`absolute inset-x-0 top-full grid border-t border-cream-50/15 bg-brand-900 shadow-raised transition-[grid-template-rows,visibility] duration-[280ms] ease-ui ${
+        className={`absolute inset-x-0 top-full grid border-t border-espresso-900/10 bg-cream-50 shadow-raised transition-[grid-template-rows,visibility] duration-[280ms] ease-ui ${
           open ? "visible grid-rows-[1fr]" : "invisible grid-rows-[0fr]"
         }`}
       >
@@ -65,7 +65,7 @@ export function MobileNav({ items, ctaHref, ctaLabel }: MobileNavProps) {
                 key={item.href}
                 href={item.href}
                 onClick={close}
-                className="flex min-h-12 items-center rounded-control px-3 text-lg font-medium transition-colors duration-150 hover:bg-cream-50/10"
+                className="flex min-h-12 items-center rounded-control px-3 text-lg font-medium text-espresso-900 transition-colors duration-150 hover:bg-espresso-900/8"
               >
                 {item.label}
               </Link>

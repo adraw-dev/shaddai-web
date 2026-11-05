@@ -11,14 +11,20 @@ import { buildWhatsAppUrl } from "@/lib/whatsapp";
 const CTA_LABEL = "Cotizar por WhatsApp";
 
 /**
- * Header fijo (sticky) sobre el morado de marca; se funde con el hero.
- * Al hacer scroll gana una sombra (HeaderScrollState + globals.css).
+ * Header fijo (sticky) TRANSPARENTE mientras la página está arriba del todo: flota sobre el hero
+ * (margen inferior negativo = su alto; las secciones iniciales usan `underHeader` para no quedar
+ * tapadas). Al hacer scroll pasa a crema translúcida con desenfoque y sombra (HeaderScrollState +
+ * globals.css). Sin JS queda siempre sólido (la transparencia solo aplica con `scripting: enabled`).
  */
 export function Header() {
   const ctaHref = buildWhatsAppUrl(quoteMessage());
 
   return (
-    <header data-site-header data-tone="brand" className="sticky top-0 z-40 bg-brand-900 text-cream-50">
+    <header
+      data-site-header
+      data-tone="cream"
+      className="sticky top-0 z-40 -mb-[var(--header-height)] text-ink"
+    >
       <Container className="relative flex h-[var(--header-height)] items-center justify-between gap-6">
         <Link href="/" aria-label={`${siteConfig.brandName} — inicio`} className="shrink-0">
           <Picture media={siteConfig.logo} sizes="80px" eager className="w-20" />
@@ -29,7 +35,7 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="flex min-h-11 items-center rounded-control px-4 font-medium text-cream-50/90 transition-colors duration-150 hover:bg-cream-50/10 hover:text-cream-50"
+              className="flex min-h-11 items-center rounded-control px-4 font-medium text-espresso-900 transition-colors duration-150 hover:bg-espresso-900/8"
             >
               {item.label}
             </Link>

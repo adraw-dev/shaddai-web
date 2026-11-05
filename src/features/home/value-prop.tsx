@@ -1,5 +1,6 @@
 import { Picture } from "@/components/media/picture";
 import { Reveal } from "@/components/motion/reveal";
+import { DepthFrame } from "@/components/ui/depth-frame";
 import { Heading } from "@/components/ui/heading";
 import { Section } from "@/components/ui/section";
 import { Text } from "@/components/ui/text";
@@ -30,7 +31,7 @@ export function ValueProp() {
               as="li"
               key={pillar}
               delay={index}
-              className="py-6 font-display text-h2 font-bold tracking-[-0.02em] text-brand-900"
+              className="py-6 font-display text-h2 font-bold tracking-[-0.02em] text-gradient-static"
             >
               {pillar}
             </Reveal>
@@ -39,12 +40,14 @@ export function ValueProp() {
       </div>
 
       <div className="mt-16 grid items-center gap-10 md:mt-24 md:grid-cols-[minmax(0,20rem)_1fr] md:gap-16">
-        <Picture
-          media={copy.image}
-          sizes="(min-width: 768px) 320px, 100vw"
-          className="aspect-[5/4] w-full rounded-card object-cover outline-1 -outline-offset-1 outline-black/10 md:aspect-square"
-        />
-        <p className="font-display text-h3 font-medium text-brand-900">{copy.freshCoffee}</p>
+        <DepthFrame className="mr-5 mb-5 md:mr-0 md:mb-0">
+          <Picture
+            media={copy.image}
+            sizes="(min-width: 768px) 320px, 100vw"
+            className="aspect-[5/4] w-full object-cover md:aspect-square"
+          />
+        </DepthFrame>
+        <p className="font-display text-h3 font-medium text-espresso-900">{copy.freshCoffee}</p>
       </div>
     </Section>
   );

@@ -1,4 +1,5 @@
 import { WhatsAppIcon } from "@/components/icons";
+import { Aurora } from "@/components/motion/aurora";
 import { LinkButton } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Section } from "@/components/ui/section";
@@ -15,7 +16,8 @@ export function ContactHero() {
   const { hero } = contactContent;
 
   return (
-    <Section tone="brand" size="compact" labelledBy="contacto-title">
+    <Section tone="aurora" size="compact" underHeader labelledBy="contacto-title" className="relative isolate overflow-hidden">
+      <Aurora />
       <div className="max-w-2xl space-y-6">
         <Heading level={1} id="contacto-title">
           {hero.title}

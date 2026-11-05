@@ -36,18 +36,27 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#25094b",
+  themeColor: "#fff1e7",
 };
 
-/** Marca <html class="js"> antes del primer pintado: solo entonces se ocultan los [data-reveal]. */
-const jsFlag = "document.documentElement.classList.add('js')";
-
+/**
+ * NO modificar <html> ni <head> con scripts en línea antes de hidratar (p. ej. añadir una clase
+ * «js»): React compara el DOM del servidor con el del cliente y un atributo distinto en <html>
+ * provoca un error de hidratación; en desarrollo eso deja el enrutador de Next sin inicializar
+ * («Router action dispatched before initialization») y las actualizaciones en caliente acaban en
+ * recargas completas. El estado oculto de los [data-reveal] usa `@media (scripting: enabled)`.
+ *
+ * `data-scroll-behavior="smooth"`: el CSS global activa `scroll-behavior: smooth`; este atributo
+ * le dice a Next que lo suspenda durante los cambios de ruta (si no, la página «se desliza»
+ * hasta arriba al navegar). Lo pide la advertencia de Next del 2026-11-05.
+ */
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="es-CO" className={`${display.variable} ${body.variable}`}>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: jsFlag }} />
-      </head>
+    <html
+      lang="es-CO"
+      data-scroll-behavior="smooth"
+      className={`${display.variable} ${body.variable}`}
+    >
       <body className="flex min-h-dvh flex-col">
         <SkipLink />
         <HeaderScrollState />

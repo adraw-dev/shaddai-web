@@ -43,7 +43,7 @@ Distribuidor con sede en Medellín que **selecciona** productos destacados del m
 
 - Dos nombres: **Shaddai Colombia** (marca de la web, registrada *ShaddaiColombia®*) y **Shaddai Insumos S.A.S.** (razón social; la usan Facebook, Instagram y el chat de WhatsApp). Cómo presentarlos está por confirmar (D-06).
 - Frase de cabecera: «Insumos de Calidad». Título del bloque principal: «Procuramos por el sabor de un buen café».
-- Logo existente: óvalo con la leyenda «Shaddai Insumos» (`public/images/brand/shaddai-logo.png`, provisional). Color `theme-color` del sitio actual: `#25094b`.
+- Logo existente: óvalo con la leyenda «Shaddai Insumos» (`public/images/brand/shaddai-logo.png`, provisional). El sitio actual usa `#25094b` como `theme-color`; **no se traslada** a la nueva web (decisión del usuario, 2026-11-05).
 - La frase poética sobre el grano de café (historia de la empresa) es la pieza más emocional del texto actual y debe conservarse; su texto literal falta (D-07).
 
 ## Evidence on Hand

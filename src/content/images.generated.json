@@ -184,5 +184,98 @@
         "mime": "image/jpeg"
       }
     ]
+  },
+  "cafeteria": {
+    "width": 1600,
+    "height": 1068,
+    "variants": [
+      {
+        "src": "/images/stock/cafeteria-barista-luminosa-640.avif",
+        "width": 640,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/stock/cafeteria-barista-luminosa-1200.avif",
+        "width": 1200,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/stock/cafeteria-barista-luminosa-640.webp",
+        "width": 640,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/stock/cafeteria-barista-luminosa-1200.webp",
+        "width": 1200,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/stock/cafeteria-barista-luminosa-1200.jpg",
+        "width": 1200,
+        "mime": "image/jpeg"
+      }
+    ]
+  },
+  "latte-crema": {
+    "width": 1600,
+    "height": 1067,
+    "variants": [
+      {
+        "src": "/images/stock/latte-vertido-crema-640.avif",
+        "width": 640,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/stock/latte-vertido-crema-1200.avif",
+        "width": 1200,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/stock/latte-vertido-crema-640.webp",
+        "width": 640,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/stock/latte-vertido-crema-1200.webp",
+        "width": 1200,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/stock/latte-vertido-crema-1200.jpg",
+        "width": 1200,
+        "mime": "image/jpeg"
+      }
+    ]
+  },
+  "latte-manos": {
+    "width": 1600,
+    "height": 2397,
+    "variants": [
+      {
+        "src": "/images/stock/latte-arte-manos-320.avif",
+        "width": 320,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/stock/latte-arte-manos-480.avif",
+        "width": 480,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/stock/latte-arte-manos-320.webp",
+        "width": 320,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/stock/latte-arte-manos-480.webp",
+        "width": 480,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/stock/latte-arte-manos-480.jpg",
+        "width": 480,
+        "mime": "image/jpeg"
+      }
+    ]
   }
 }

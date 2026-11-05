@@ -2,31 +2,49 @@
 
 /*
  * Tokens de diseño — docs/PLAN_DESARROLLO.md §5.
- * Paleta confirmada el 2026-11-04: morado #25094b como banda envolvente, crema como base
- * y el ROJO DEL LOGO (oscurecido para cumplir AA) como acento. Contrastes calculados (WCAG 2.x):
- *   crema-50 sobre morado-900 ........ 16.0:1      ink sobre crema-50 ........... 16.6:1
+ * Paleta «Espresso» (elegida el 2026-11-05, reemplaza al morado): marrón café muy oscuro como banda
+ * envolvente, crema como base y el ROJO DEL LOGO (oscurecido para cumplir AA) como acento.
+ * Contrastes calculados (WCAG 2.x):
+ *   crema-50 sobre espresso-900 ...... 15.5:1      ink sobre crema-50 ........... 17.5:1
  *   crema-50 sobre acento (#c4161c) ..  5.6:1      acento sobre crema-50 ........  5.6:1
- *   acento-claro sobre morado-900 ....  6.2:1      morado-300 sobre morado-900 ..  9.4:1
- *   cobre sobre crema-50 .............  8.3:1      muted (#5b4a78) sobre crema ..  7.2:1
- *   blanco sobre whatsapp (#0e7a43) ..  5.4:1
+ *   acento-suave sobre espresso-900 ..  7.3:1      arena-300 sobre espresso-900 ..  9.8:1
+ *   cobre sobre crema-50 .............  8.3:1      muted (#6b5648) sobre crema ..  6.4:1
+ *   blanco sobre whatsapp (#0e7a43) ..  5.4:1      borde de campo sobre crema ...  4.1:1
  * ⚠ El rojo exacto del logo (#ed2121) da 4.3:1 con texto blanco: NO usarlo como fondo de texto.
- * ⚠ Borde del botón rojo sobre morado = 2.9:1; la etiqueta (5.6:1) es lo que identifica el control.
+ * ⚠ Borde del botón rojo sobre espresso = 2.8:1; la etiqueta (5.6:1) es lo que identifica el control.
  */
 @theme {
   /* Color */
-  --color-brand-900: #25094b;
-  --color-brand-700: #4a1d8a;
-  --color-brand-300: #c9b6ee;
+  --color-espresso-900: #2b1a14;
+  --color-espresso-700: #4a2f24;
+  --color-sand-300: #d8c3ae;
   --color-cream-50: #fbf6ee;
   --color-cream-100: #f3eadb;
-  --color-ink: #1b1230;
-  --color-muted: #5b4a78;
+  --color-ink: #1a0f0b;
+  --color-muted: #6b5648;
   --color-accent: #c4161c;
   --color-accent-strong: #a50f16;
-  --color-accent-soft: #ff6b6b;
+  --color-accent-soft: #ff8a78;
   --color-copper: #7c341c;
   --color-whatsapp: #0e7a43;
   --color-whatsapp-strong: #0b6e3b;
+
+  /*
+   * Propuesta B «Aurora 2.5D» (rama feat/propuesta-visual-25d): pasteles cálidos derivados del logo
+   * (rojo → coral/rosa, cobre → damasco/caramelo, crema → durazno/mantequilla). Son de DECORACIÓN y
+   * de fondos de gradiente; el texto sigue usando ink / espresso / copper / muted (contrastes arriba).
+   */
+  --color-peach-100: #fff1e7;
+  --color-peach-200: #ffdcc9;
+  --color-apricot-300: #ffc3a3;
+  --color-coral-300: #ff9c88;
+  --color-rose-200: #fbd0d4;
+  --color-butter-100: #fff3cf;
+  --color-butter-200: #ffeab9;
+  --color-latte-200: #ecd8c3;
+  --color-caramel-400: #d99a63;
+  --color-mocha-700: #5a3a34;
+  --color-mocha-900: #34201b;
 
   /* Tipografía (las familias se cargan con next/font en layout.tsx) */
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
@@ -50,9 +68,9 @@
 
   /* Elevación: sombras en capas, con desplazamiento y desenfoque (sin halos) */
   --shadow-card:
-    0 1px 2px rgb(27 18 48 / 0.06), 0 10px 28px -10px rgb(27 18 48 / 0.18);
+    0 1px 2px rgb(26 15 11 / 0.06), 0 10px 28px -10px rgb(26 15 11 / 0.18);
   --shadow-raised:
-    0 1px 2px rgb(27 18 48 / 0.1), 0 14px 32px -12px rgb(27 18 48 / 0.32);
+    0 1px 2px rgb(26 15 11 / 0.1), 0 14px 32px -12px rgb(26 15 11 / 0.32);
 
   /* Movimiento (plan §5.5) */
   --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
@@ -67,6 +85,26 @@
   --header-height: 4.5rem;
   /* Solape de las "hojas" entre secciones (ver ui/section.tsx): radio = solape */
   --sheet-overlap: 2.5rem;
+
+  /* Fondos de sección: degradados suaves (ver ui/section.tsx) */
+  --grad-aurora:
+    radial-gradient(70% 60% at 10% 6%, rgb(255 205 180 / 0.75), transparent 65%),
+    radial-gradient(55% 55% at 94% 16%, rgb(251 208 212 / 0.9), transparent 68%),
+    radial-gradient(70% 70% at 76% 100%, rgb(255 234 185 / 0.85), transparent 70%),
+    linear-gradient(180deg, #fff8f0 0%, #ffeee3 100%);
+  --grad-cream: linear-gradient(180deg, #fffaf4 0%, #fdf0e5 100%);
+  --grad-cream-warm:
+    radial-gradient(60% 80% at 100% 0%, rgb(251 208 212 / 0.55), transparent 60%),
+    linear-gradient(165deg, #fdeedd 0%, #f8e0d0 100%);
+  --grad-sunrise:
+    radial-gradient(60% 90% at 0% 0%, rgb(255 234 185 / 0.8), transparent 60%),
+    radial-gradient(60% 90% at 100% 100%, rgb(251 185 190 / 0.8), transparent 60%),
+    linear-gradient(135deg, #ffd9c2 0%, #ffc4a8 100%);
+  --grad-dusk:
+    radial-gradient(55% 70% at 96% 0%, rgb(255 156 136 / 0.2), transparent 66%),
+    radial-gradient(55% 70% at 0% 100%, rgb(255 222 150 / 0.14), transparent 66%),
+    linear-gradient(140deg, #46292a 0%, #693b38 48%, #8a4e45 100%);
+  --grad-ink: linear-gradient(160deg, #2b1a14 0%, #1d110d 100%);
 }
 
 @media (min-width: 768px) {
@@ -81,7 +119,7 @@
     -moz-osx-font-smoothing: grayscale;
     scroll-padding-top: var(--header-height);
     /* Superficies del navegador que también son parte del diseño */
-    scrollbar-color: var(--color-brand-700) var(--color-cream-100);
+    scrollbar-color: var(--color-espresso-700) var(--color-cream-100);
     text-size-adjust: 100%;
   }
 
@@ -123,11 +161,15 @@
     border-radius: 2px;
   }
 
-  [data-tone="brand"] :focus-visible,
-  [data-tone="ink"] :focus-visible,
+  [data-tone="dusk"] :focus-visible,
   [data-on-dark] :focus-visible {
     outline-color: var(--color-cream-50);
-    box-shadow: 0 0 0 6px var(--color-brand-900);
+    box-shadow: 0 0 0 6px var(--color-mocha-900);
+  }
+
+  [data-tone="ink"] :focus-visible {
+    outline-color: var(--color-cream-50);
+    box-shadow: 0 0 0 6px var(--color-ink);
   }
 }
 
@@ -139,26 +181,32 @@
 
 /*
  * Revelado al entrar en el viewport (componente <Reveal>).
- * El contenido es visible SIN JavaScript: solo se oculta cuando <html class="js">
- * ya está activo (lo marca un script mínimo en layout.tsx).
+ * El contenido es visible SIN JavaScript: `@media (scripting: enabled)` solo se cumple cuando hay
+ * JS, así que no hace falta marcar <html> con una clase (hacerlo con un script en línea rompía la
+ * hidratación; ver el comentario de layout.tsx). Un navegador sin soporte de esta media query no
+ * oculta nada: pierde la animación, nunca el contenido.
  */
-html.js [data-reveal]:not(.is-visible) {
-  opacity: 0;
-  transform: translate3d(0, var(--reveal-distance), 0);
+@media (scripting: enabled) {
+  [data-reveal]:not(.is-visible) {
+    opacity: 0;
+    transform: translate3d(0, var(--reveal-distance), 0);
+  }
+
+  [data-reveal] {
+    transition:
+      opacity var(--duration-reveal) var(--ease-out-soft),
+      transform var(--duration-reveal) var(--ease-out-soft);
+  }
 }
 
-html.js [data-reveal] {
-  transition:
-    opacity var(--duration-reveal) var(--ease-out-soft),
-    transform var(--duration-reveal) var(--ease-out-soft);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html.js [data-reveal]:not(.is-visible) {
+@media (scripting: enabled) and (prefers-reduced-motion: reduce) {
+  [data-reveal]:not(.is-visible) {
     opacity: 1;
     transform: none;
   }
+}
 
+@media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
@@ -232,13 +280,26 @@ textarea[aria-invalid="true"] {
 
 /* Header: sombra cuando la página ya no está arriba (ver <HeaderScrollState>). */
 header[data-site-header] {
-  transition: box-shadow var(--duration-base) var(--ease-ui);
+  background-color: rgb(255 250 244 / 0.9);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 1px 0 rgb(90 58 52 / 0.08),
+    0 14px 28px -16px rgb(90 58 52 / 0.35);
+  transition:
+    background-color var(--duration-base) var(--ease-ui),
+    box-shadow var(--duration-base) var(--ease-ui),
+    backdrop-filter var(--duration-base) var(--ease-ui);
 }
 
-header[data-site-header][data-scrolled] {
-  box-shadow:
-    0 1px 0 rgb(251 246 238 / 0.08),
-    0 12px 24px -14px rgb(0 0 0 / 0.5);
+/* Arriba del todo (y solo con JS, que es quien marca `data-scrolled`): totalmente transparente. */
+@media (scripting: enabled) {
+  header[data-site-header]:not([data-scrolled]) {
+    background-color: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
 }
 
 /*
@@ -255,6 +316,401 @@ header[data-site-header][data-scrolled] {
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+ * Propuesta B «Aurora 2.5D» (rama feat/propuesta-visual-25d)
+ *
+ * 2.5D = capas planas con profundidad falsa: `perspective` + `translateZ` + sombras de contacto, sin
+ * WebGL. Todo el movimiento usa `transform`/`opacity` y las propiedades individuales `translate`,
+ * `rotate` y `scale` (que se componen entre sí, así una capa puede entrar, flotar y reaccionar al
+ * puntero sin pisarse). Con `prefers-reduced-motion` todo queda en una pose fija diseñada.
+ * ══════════════════════════════════════════════════════════════════════════ */
+
+/* — Aurora: manchas de degradado que derivan despacio detrás del hero — */
+@keyframes aurora-a {
+  to {
+    transform: translate3d(9%, 7%, 0) scale(1.18);
+  }
+}
+@keyframes aurora-b {
+  to {
+    transform: translate3d(-10%, 9%, 0) scale(0.92);
+  }
+}
+@keyframes aurora-c {
+  to {
+    transform: translate3d(-8%, -9%, 0) scale(1.15);
+  }
+}
+
+.aurora {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aurora__blob {
+  position: absolute;
+  border-radius: 9999px;
+  width: max(46vmax, 28rem);
+  aspect-ratio: 1;
+  animation: 22s ease-in-out infinite alternate;
+}
+
+.aurora__blob--a {
+  left: -14vmax;
+  top: -18vmax;
+  background: radial-gradient(circle, rgb(255 176 148 / 0.62), transparent 66%);
+  animation-name: aurora-a;
+}
+.aurora__blob--b {
+  right: -16vmax;
+  top: -10vmax;
+  background: radial-gradient(circle, rgb(249 170 190 / 0.6), transparent 66%);
+  animation-name: aurora-b;
+  animation-duration: 27s;
+}
+.aurora__blob--c {
+  left: 22%;
+  bottom: -26vmax;
+  background: radial-gradient(circle, rgb(255 222 150 / 0.7), transparent 66%);
+  animation-name: aurora-c;
+  animation-duration: 31s;
+}
+
+/* — Escenario 2.5D del hero — */
+.stage {
+  position: relative;
+  width: 100%;
+  max-width: 34rem;
+  margin-inline: auto;
+  aspect-ratio: 1 / 1.04;
+  perspective: 1100px;
+  perspective-origin: 50% 38%;
+}
+
+@media (min-width: 1024px) {
+  .stage {
+    max-width: 38rem;
+    aspect-ratio: 1;
+  }
+}
+
+/* --px / --py (−1…1) los escribe <HeroStage> (puntero amortiguado). Sin JS: pose de reposo. */
+.rig {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(4deg + var(--py, 0) * -6deg)) rotateY(calc(-8deg + var(--px, 0) * 9deg));
+}
+
+@keyframes layer-in {
+  from {
+    opacity: 0;
+    scale: 0.8;
+  }
+}
+@keyframes layer-float {
+  from {
+    translate: 0 calc(var(--float-amp, 10px) * -1);
+    rotate: calc(var(--float-rot, 2deg) * -1);
+  }
+  to {
+    translate: 0 var(--float-amp, 10px);
+    rotate: var(--float-rot, 2deg);
+  }
+}
+
+.layer {
+  position: absolute;
+  transform: translateZ(var(--z, 0px));
+  animation-name: layer-in, layer-float;
+  animation-duration: 1000ms, var(--float-dur, 7s);
+  animation-timing-function: var(--ease-out-soft), ease-in-out;
+  animation-delay: calc(var(--i, 0) * 110ms + 120ms), var(--float-delay, 0s);
+  animation-iteration-count: 1, infinite;
+  animation-direction: normal, alternate;
+  animation-fill-mode: backwards, none;
+}
+
+/* Disco esmaltado (plataforma de fondo) */
+.plate {
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 30% 22%, #fffaf0 0%, rgb(255 244 214 / 0) 38%),
+    radial-gradient(circle at 70% 85%, rgb(251 188 192 / 0.9), rgb(251 188 192 / 0) 60%),
+    linear-gradient(145deg, #ffe9c4 0%, #ffd2bd 55%, #f9b9bd 100%);
+  box-shadow:
+    inset 0 10px 18px rgb(255 255 255 / 0.75),
+    inset 0 -22px 40px rgb(255 140 120 / 0.22),
+    0 44px 60px -34px rgb(150 78 58 / 0.5);
+}
+
+@keyframes ring-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+.ring {
+  border-radius: 9999px;
+  border: 2px dashed rgb(217 154 99 / 0.55);
+  animation-name: layer-in, ring-spin;
+  animation-duration: 1000ms, 70s;
+  animation-timing-function: var(--ease-out-soft), linear;
+  animation-iteration-count: 1, infinite;
+  animation-direction: normal, normal;
+  animation-delay: 0s, 0s;
+}
+
+/* Foto en tarjeta inclinada */
+.photo-card {
+  border-radius: 2rem;
+  overflow: hidden;
+  transform: translateZ(var(--z, 0px)) rotate(-4deg);
+  box-shadow:
+    0 2px 4px rgb(90 58 52 / 0.12),
+    0 30px 50px -18px rgb(90 58 52 / 0.5);
+  outline: 1px solid rgb(255 255 255 / 0.55);
+  outline-offset: -1px;
+}
+.photo-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgb(255 168 140 / 0.38), transparent 55%);
+  mix-blend-mode: soft-light;
+}
+
+/* Tazas recortadas con sombra de contacto */
+.cup img {
+  filter: drop-shadow(0 22px 18px rgb(120 64 44 / 0.28)) drop-shadow(0 4px 4px rgb(120 64 44 / 0.18));
+}
+
+/* Chips flotantes (decorativos) */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 9999px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  color: var(--color-espresso-900);
+  background: linear-gradient(135deg, rgb(255 255 255 / 0.92), rgb(255 233 214 / 0.82));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 14px 24px -12px rgb(140 70 50 / 0.45);
+  white-space: nowrap;
+}
+.chip::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, var(--color-coral-300), var(--color-caramel-400));
+}
+
+/* Grano de café en CSS puro */
+.bean {
+  position: absolute;
+  width: 1.75rem;
+  height: 2.5rem;
+  border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%;
+  background: radial-gradient(circle at 34% 28%, #d9a070 0%, #8a553f 42%, #4a2a22 100%);
+  box-shadow:
+    inset -3px -5px 7px rgb(30 12 8 / 0.35),
+    0 14px 14px -8px rgb(90 50 38 / 0.55);
+}
+.bean::after {
+  content: "";
+  position: absolute;
+  inset: 8% 32%;
+  border-left: 2px solid rgb(35 15 10 / 0.55);
+  border-radius: 50%;
+}
+
+/* — Cinta en movimiento entre hero y productos — */
+@keyframes ribbon-run {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.ribbon {
+  position: relative;
+  margin-inline: -6%;
+  overflow: hidden;
+  rotate: -1.6deg;
+  background: linear-gradient(95deg, #ffb8a0 0%, #ffd2b0 32%, #ffeab9 58%, #fbc1c8 100%);
+  box-shadow:
+    0 18px 30px -18px rgb(150 78 58 / 0.55),
+    inset 0 1px 0 rgb(255 255 255 / 0.7);
+}
+.ribbon__track {
+  display: flex;
+  width: max-content;
+  animation: ribbon-run 46s linear infinite;
+}
+.ribbon__group {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 1.75rem;
+  padding: 0.8rem 1.75rem 0.8rem 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-espresso-900);
+  white-space: nowrap;
+}
+.ribbon__group > span:nth-child(even) {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 9999px;
+  background: var(--color-accent);
+}
+
+/* — Texto con degradado cálido (solo colores oscuros: AA sobre crema/durazno) — */
+@keyframes warm-shimmer {
+  to {
+    background-position: -220% 0;
+  }
+}
+.text-gradient-warm {
+  background-image: linear-gradient(100deg, #a50f16 0%, #d1431f 38%, #a50f16 62%, #7c341c 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: warm-shimmer 7s linear infinite;
+}
+.text-gradient-static {
+  background-image: linear-gradient(95deg, var(--color-espresso-900) 0%, #7c341c 55%, #b3261e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* — Tarjeta con inclinación y brillo que sigue al puntero (<TiltCard>) — */
+.tilt {
+  position: relative;
+  transform-style: preserve-3d;
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .tilt {
+    transform: perspective(900px) rotateX(calc(var(--ty, 0) * -6deg)) rotateY(calc(var(--tx, 0) * 7deg));
+    transition: transform 220ms var(--ease-out-soft);
+  }
+  .tilt__glare {
+    opacity: 0;
+    transition: opacity var(--duration-base) var(--ease-ui);
+  }
+  .tilt:hover .tilt__glare {
+    opacity: 1;
+  }
+  .tilt:hover .tilt__pop {
+    transform: translateZ(70px);
+  }
+}
+.tilt__pop {
+  transform: translateZ(24px);
+  transition: transform var(--duration-base) var(--ease-out-soft);
+}
+.tilt__glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    22rem circle at calc(var(--gx, 0.5) * 100%) calc(var(--gy, 0.3) * 100%),
+    rgb(255 255 255 / 0.5),
+    transparent 60%
+  );
+}
+
+/* Flotación suave suelta (cualquier elemento decorativo) */
+.float-slow {
+  animation: layer-float var(--float-dur, 8s) ease-in-out var(--float-delay, 0s) infinite alternate;
+}
+
+/* — Marco con placas apiladas (2.5D por capas) — */
+.depth-frame {
+  position: relative;
+  isolation: isolate;
+}
+.depth-frame__plate {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 2rem;
+  transition: transform 420ms var(--ease-out-soft);
+}
+.depth-frame__plate--back {
+  background: linear-gradient(135deg, #fbc1c8, #ffc3a3);
+  transform: translate(1.1rem, 1.1rem) rotate(4deg);
+}
+.depth-frame__plate--mid {
+  background: linear-gradient(135deg, #ffeab9, #ffd5c0);
+  transform: translate(0.55rem, 0.55rem) rotate(2deg);
+}
+.depth-frame__face {
+  position: relative;
+  border-radius: 2rem;
+  overflow: hidden;
+  box-shadow:
+    0 2px 4px rgb(90 58 52 / 0.1),
+    0 28px 44px -20px rgb(90 58 52 / 0.5);
+}
+@media (hover: hover) and (pointer: fine) {
+  .depth-frame:hover .depth-frame__plate--back {
+    transform: translate(1.7rem, 1.4rem) rotate(7deg);
+  }
+  .depth-frame:hover .depth-frame__plate--mid {
+    transform: translate(0.9rem, 0.7rem) rotate(3.5deg);
+  }
+}
+
+/* — Profundidad con el scroll (mejora progresiva, sin JS) — */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes stage-scroll {
+      to {
+        translate: 0 -56px;
+      }
+    }
+    @keyframes aurora-scroll {
+      to {
+        translate: 0 90px;
+      }
+    }
+    .stage {
+      animation: stage-scroll linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 70vh;
+    }
+    .aurora {
+      animation: aurora-scroll linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+  }
+}
+
+/* — Reduced motion: pose fija, sin deriva ni flotación — */
+@media (prefers-reduced-motion: reduce) {
+  .aurora__blob,
+  .layer,
+  .ring,
+  .ribbon__track,
+  .float-slow,
+  .text-gradient-warm {
     animation: none !important;
   }
 }

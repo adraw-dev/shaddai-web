@@ -7,7 +7,7 @@ import { cn } from "@/lib/cn";
  * Accesibilidad: <label> visible; ayuda y error asociados con aria-describedby; aria-invalid;
  * el error SIEMPRE lleva texto (no depende solo del color). Foco visible: estilo global.
  * Color: fondo y borde del control salen de --field-bg / --field-border, que fija cada <Section>
- * según su tono (crema sobre morado; blanco con borde ≥ 3:1 sobre crema).
+ * según su tono (crema sobre espresso; blanco con borde ≥ 3:1 sobre crema).
  */
 export function fieldA11y(id: string, hint?: string, error?: string) {
   const hintId = hint ? `${id}-hint` : undefined;

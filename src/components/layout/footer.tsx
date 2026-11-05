@@ -18,7 +18,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer data-tone="ink" className={cn(sheetClasses, "bg-ink pt-14 pb-28 text-cream-50 [--muted:var(--color-brand-300)] md:pb-12")}>
+    <footer data-tone="ink" className={cn(sheetClasses, "bg-ink bg-[image:var(--grad-ink)] pt-14 pb-28 text-cream-50 [--muted:var(--color-sand-300)] md:pb-12")}>
       <Container>
         <div className="grid gap-10 md:grid-cols-[1.2fr_1fr_1fr]">
           <div className="space-y-4">

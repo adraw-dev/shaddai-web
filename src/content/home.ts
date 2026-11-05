@@ -13,6 +13,8 @@ export const homeContent = {
   hero: {
     // MD §1: título del bloque principal.
     title: "Procuramos por el sabor de un buen café",
+    // Palabras del título con degradado cálido (Propuesta B; solo estilo, no cambia el texto).
+    highlight: ["sabor"] as readonly string[],
     lead: "Insumos de calidad para preparar bebidas de café, desde Medellín para cafeterías, restaurantes, máquinas expendedoras y comercios.",
     quoteCta: "Cotizar por WhatsApp",
     catalogCta: "Conoce nuestro catálogo",
@@ -36,6 +38,8 @@ export const homeContent = {
     featuredLinkLabel: "Ver productos HORECA",
     linkLabel: "Ver productos",
     inquiryLabel: "Consultar por WhatsApp",
+    // Foto de banco (Pexels, Amelia Hallsworth): ilustra el canal, NO es una cafetería cliente de Shaddai.
+    featuredImage: media("cafeteria", "Barista preparando café con una máquina espresso en una cafetería luminosa"),
   },
 
   quality: {
@@ -49,7 +53,8 @@ export const homeContent = {
     // MD §4 «Café fresco».
     freshCoffee:
       "No hay una segunda oportunidad para causar una primera impresión. Por eso el café de su negocio debe ser de calidad: un grano limpio y con un sabor en taza claramente por encima del promedio.",
-    image: media("calidad", "Granos de café tostado en un cuenco blanco"),
+    // Foto de banco (Pexels, Olha Ruskykh). Reemplaza a «calidad» (granos en cuenco, fuera de la paleta cálida).
+    image: media("latte-crema", "Barista vertiendo leche sobre un café para dibujar arte latte, sobre fondo crema"),
   },
 
   story: {
@@ -65,6 +70,8 @@ export const homeContent = {
      * `undefined`, la sección no la muestra (no se inventa ni se parafrasea).
      */
     poeticPhrase: undefined as string | undefined,
+    // Foto de banco (Pexels, Chevanon Photography) que acompaña al video; es ilustrativa.
+    accentImage: media("latte-manos", "Manos vertiendo leche para formar arte latte en una taza blanca"),
     video: {
       id: "NYPI5JoMi4M",
       // El MD no dice qué muestra el video; título genérico hasta confirmarlo.

@@ -31,7 +31,7 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdScript(organizationJsonLd()) }}
       />
-      <Hero quoteUrl={quoteUrl} catalogUrl={catalogUrl} />
+      <Hero quoteUrl={quoteUrl} catalogUrl={catalogUrl} lines={lines} channels={channels} />
       <ProductLines lines={lines} catalogUrl={catalogUrl} />
       <Channels channels={channels} />
       <ValueProp />

@@ -14,6 +14,20 @@ Descargados el **2026-11-04** del sitio actual (`https://www.shaddaicolombia.com
 | `public/images/gallery/galeria-2.jpg` | `2020/05/gallery-coffee-image-2-1.jpg` | 800×800 | Galería | Taza oscura con granos |
 | `public/images/gallery/galeria-3.jpg` | `2020/05/gallery-coffee-image-5.jpg` | 800×800 | Galería | Granos de café en cuenco |
 
+## Fotos de banco (Propuesta B, 2026-11-05)
+
+Descargadas de **Pexels** (licencia Pexels: uso comercial libre y sin atribución obligatoria; no se vende la foto sin transformar). Se eligieron por encajar con la paleta cálida y por no mostrar marcas ni letreros de terceros. Originales en `assets-src/images/stock/`; variantes AVIF/WebP/JPEG en `public/images/stock/` (generadas con `scripts/optimize-images.mjs`).
+
+| Archivo (original) | Foto | Autor | Dónde se usa |
+|---|---|---|---|
+| `latte-vertido-crema.jpg` | [Person Pouring Milk on Mug Making Latte Art](https://www.pexels.com/photo/person-pouring-milk-on-mug-making-latte-art-6166751/) | Olha Ruskykh | «La mejor taza servida» (junto al texto de «café fresco») |
+| `cafeteria-barista-luminosa.jpg` | [Man Working in Kitchen](https://www.pexels.com/photo/man-working-in-kitchen-5461592/) (barista junto a una máquina espresso) | Amelia Hallsworth | Panel HORECA de «Canales» |
+| `latte-arte-manos.jpg` | [Person Pouring Milk on Coffee](https://www.pexels.com/photo/person-pouring-milk-on-coffee-302891/) | Chevanon Photography | Esquina del video en «Nuestra historia» |
+
+**Son imágenes ilustrativas**, no muestran clientes, instalaciones ni productos de Shaddai. Los textos alternativos describen lo que se ve, sin afirmar nada de la empresa. **Reemplazar por fotos propias del cliente cuando las entregue (D-05).** Si se publica atribución, usar la columna «Autor».
+
+Se probaron y **descartaron**: Unsplash (bloquea las descargas automatizadas con una verificación antichatbot; no se evadió) y Wikimedia Commons (fotos con letreros y marcas de terceros: «French Coffee Shop», «Mojo», «Kikka»). No se usaron fotos de máquinas de vending ni de bolsas de café en estantería: las disponibles mostraban marcas ajenas o máquinas de bebidas, no de café.
+
 ## Limitaciones conocidas
 
 - **Resolución insuficiente para pantallas de alta densidad:** las imágenes de producto miden 320×320 px. En un *hero* grande se verán borrosas. Solicitar originales (mínimo 1200 px de lado, fondo transparente) antes de F3-02.

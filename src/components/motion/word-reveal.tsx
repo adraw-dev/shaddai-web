@@ -11,15 +11,18 @@
  * normales), así que los lectores de pantalla lo leen igual. `prefers-reduced-motion`: la regla
  * global de globals.css reduce la animación a ~0 ms.
  * Solo para textos CORTOS (títulos) y sin enlaces ni marcado interno.
+ *
+ * `highlight`: palabras que llevan el degradado cálido (`.text-gradient-warm`, Propuesta B). El
+ * degradado va en un <span> interior para no pisar la animación de entrada de la palabra.
  */
-export function WordReveal({ text }: { text: string }) {
+export function WordReveal({ text, highlight = [] }: { text: string; highlight?: readonly string[] }) {
   const words = text.split(" ");
   return (
     <>
       {words.map((word, index) => (
         <span key={`${word}-${index}`}>
           <span className="word-reveal__word" style={{ "--word-index": index } as React.CSSProperties}>
-            {word}
+            {highlight.includes(word) ? <span className="text-gradient-warm">{word}</span> : word}
           </span>
           {index < words.length - 1 ? " " : null}
         </span>

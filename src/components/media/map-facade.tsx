@@ -18,7 +18,7 @@ export function MapFacade({ src, title, buttonLabel }: MapFacadeProps) {
   const [active, setActive] = useState(false);
 
   return (
-    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-card bg-brand-900">
+    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-card bg-mocha-700 bg-gradient-to-br from-mocha-900 via-mocha-700 to-[#8a4e45]">
       {active ? (
         <iframe
           className="absolute inset-0 size-full border-0"
@@ -33,7 +33,7 @@ export function MapFacade({ src, title, buttonLabel }: MapFacadeProps) {
           type="button"
           onClick={() => setActive(true)}
           data-on-dark
-          className="group absolute inset-0 flex size-full flex-col items-center justify-center gap-3 text-cream-50 transition-colors duration-150 hover:bg-brand-700/40"
+          className="group absolute inset-0 flex size-full flex-col items-center justify-center gap-3 text-cream-50 transition-colors duration-150 hover:bg-espresso-700/60"
         >
           <PinIcon size={36} />
           <span className="font-semibold">{buttonLabel}</span>

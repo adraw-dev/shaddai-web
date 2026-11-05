@@ -232,7 +232,7 @@ export function ContactForm({ canSendMessage, privacyPolicyUrl }: ContactFormPro
           {privacyPolicyUrl ? (
             <a
               href={privacyPolicyUrl}
-              className="font-semibold text-brand-700 underline underline-offset-4"
+              className="font-semibold text-copper underline underline-offset-4"
               {...(/^https?:\/\//.test(privacyPolicyUrl) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             >
               {copy.consentLink}

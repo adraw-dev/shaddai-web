@@ -22,7 +22,7 @@ export function VideoFacade({ videoId, title, posterSrc, className }: VideoFacad
   const [active, setActive] = useState(false);
 
   return (
-    <div className={`relative aspect-video w-full overflow-hidden rounded-card bg-brand-900 ${className ?? ""}`}>
+    <div className={`relative aspect-video w-full overflow-hidden rounded-card bg-mocha-700 bg-gradient-to-br from-mocha-900 via-mocha-700 to-[#8a4e45] ${className ?? ""}`}>
       {active ? (
         <iframe
           className="absolute inset-0 size-full"
@@ -41,7 +41,7 @@ export function VideoFacade({ videoId, title, posterSrc, className }: VideoFacad
           {posterSrc ? (
             <img src={posterSrc} alt="" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover" />
           ) : null}
-          <span className="relative inline-flex size-16 items-center justify-center rounded-full bg-accent text-cream-50 shadow-raised transition-[background-color,scale] duration-150 ease-ui group-hover:bg-accent-strong group-active:scale-[0.96] sm:size-20">
+          <span className="relative inline-flex size-16 items-center justify-center rounded-full bg-accent text-cream-50 shadow-raised ring-4 ring-cream-50/40 transition-[background-color,scale] duration-150 ease-ui group-hover:bg-accent-strong group-active:scale-[0.96] sm:size-20">
             <PlayIcon size={32} className="ml-1" />
           </span>
         </button>

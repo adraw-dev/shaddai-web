@@ -19,6 +19,7 @@
 
 - **Sitio estático** (`output: "export"`): no hay Route Handlers dinámicos, Server Actions, `redirects()`/`headers()` de `next.config`, ISR ni proxy. Redirecciones y cabeceras van por plataforma (`vercel.json`, `public/_redirects`, `public/_headers`).
 - Tailwind se integra mediante el loader `@tailwindcss/turbopack` que generó `create-next-app` (ver `next.config.ts`).
+- **Hidratación:** no modificar `<html>`/`<head>` con scripts en línea antes de hidratar (p. ej. añadir una clase `js`): React lo detecta como error de hidratación y, en desarrollo, el enrutador de Next queda sin inicializar y las ediciones provocan recargas completas. El estado oculto de `Reveal` usa `@media (scripting: enabled)`. Si algo debe cambiar `<html>` en el cliente, usar `suppressHydrationWarning` solo en ese elemento y entender por qué.
 - Scripts: `npm run dev` · `npm run build` (genera `out/`) · `npm run lint` · `npm run typecheck`.
 
 <!-- BEGIN:nextjs-agent-rules -->

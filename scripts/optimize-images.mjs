@@ -36,6 +36,10 @@ const sources = [
   { key: "hero", file: "gallery/galeria-2.jpg", widths: [480, 800], fallback: "jpeg" },
   { key: "calidad", file: "gallery/galeria-3.jpg", widths: [320, 640], fallback: "jpeg" },
   // galeria-1.jpg (macarons) no se usa en el sitio: se conserva solo como original.
+  // Fotos de banco (Pexels, licencia libre; autores en docs/activos-provisionales.md). Propuesta B.
+  { key: "cafeteria", file: "stock/cafeteria-barista-luminosa.jpg", widths: [640, 1200], fallback: "jpeg" },
+  { key: "latte-crema", file: "stock/latte-vertido-crema.jpg", widths: [640, 1200], fallback: "jpeg" },
+  { key: "latte-manos", file: "stock/latte-arte-manos.jpg", widths: [320, 480], fallback: "jpeg" },
 ];
 
 const encoders = {
