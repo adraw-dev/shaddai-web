@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+/*
+ * Base mínima de la Fase 1. Los tokens definitivos (paleta, tipografía,
+ * movimiento) se definen en la Fase 2 (F2-02 / F2-03) — ver docs/PLAN_DESARROLLO.md §5.
+ * Único valor documentado por el cliente: color de marca #25094b.
+ */
+@theme {
+  --color-brand-900: #25094b;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: #fff;
+  color: var(--color-brand-900);
+}
