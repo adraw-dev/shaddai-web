@@ -1,19 +1,161 @@
 @import "tailwindcss";
 
 /*
- * Base mínima de la Fase 1. Los tokens definitivos (paleta, tipografía,
- * movimiento) se definen en la Fase 2 (F2-02 / F2-03) — ver docs/PLAN_DESARROLLO.md §5.
- * Único valor documentado por el cliente: color de marca #25094b.
+ * Tokens de diseño — docs/PLAN_DESARROLLO.md §5.
+ * Paleta confirmada el 2026-11-04: morado #25094b como banda envolvente, crema como base
+ * y el ROJO DEL LOGO (oscurecido para cumplir AA) como acento. Contrastes calculados (WCAG 2.x):
+ *   crema-50 sobre morado-900 ........ 16.0:1      ink sobre crema-50 ........... 16.6:1
+ *   crema-50 sobre acento (#c4161c) ..  5.6:1      acento sobre crema-50 ........  5.6:1
+ *   acento-claro sobre morado-900 ....  6.2:1      morado-300 sobre morado-900 ..  9.4:1
+ *   cobre sobre crema-50 .............  8.3:1      muted (#5b4a78) sobre crema ..  7.2:1
+ *   blanco sobre whatsapp (#0e7a43) ..  5.4:1
+ * ⚠ El rojo exacto del logo (#ed2121) da 4.3:1 con texto blanco: NO usarlo como fondo de texto.
+ * ⚠ Borde del botón rojo sobre morado = 2.9:1; la etiqueta (5.6:1) es lo que identifica el control.
  */
 @theme {
+  /* Color */
   --color-brand-900: #25094b;
+  --color-brand-700: #4a1d8a;
+  --color-brand-300: #c9b6ee;
+  --color-cream-50: #fbf6ee;
+  --color-cream-100: #f3eadb;
+  --color-ink: #1b1230;
+  --color-muted: #5b4a78;
+  --color-accent: #c4161c;
+  --color-accent-strong: #a50f16;
+  --color-accent-soft: #ff6b6b;
+  --color-copper: #7c341c;
+  --color-whatsapp: #0e7a43;
+  --color-whatsapp-strong: #0b6e3b;
+
+  /* Tipografía (las familias se cargan con next/font en layout.tsx) */
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display-face), var(--font-body), ui-sans-serif, system-ui, sans-serif;
+
+  /* Escala fluida: 360 px → 1440 px. Display máx. 5rem (< 6rem). */
+  --text-display: clamp(2.5rem, 1.7rem + 3.6vw, 5rem);
+  --text-display--line-height: 1.02;
+  --text-h1: clamp(2.25rem, 1.65rem + 2.6vw, 3.75rem);
+  --text-h1--line-height: 1.06;
+  --text-h2: clamp(1.75rem, 1.4rem + 1.6vw, 2.75rem);
+  --text-h2--line-height: 1.12;
+  --text-h3: clamp(1.25rem, 1.12rem + 0.6vw, 1.625rem);
+  --text-h3--line-height: 1.25;
+  --text-lead: clamp(1.125rem, 1.06rem + 0.35vw, 1.375rem);
+  --text-lead--line-height: 1.55;
+
+  /* Radios concéntricos: radio externo = radio interno + padding */
+  --radius-control: 0.75rem;
+  --radius-card: 1rem;
+
+  /* Elevación: sombras en capas, con desplazamiento y desenfoque (sin halos) */
+  --shadow-card:
+    0 1px 2px rgb(27 18 48 / 0.06), 0 10px 28px -10px rgb(27 18 48 / 0.18);
+  --shadow-raised:
+    0 1px 2px rgb(27 18 48 / 0.1), 0 14px 32px -12px rgb(27 18 48 / 0.32);
+
+  /* Movimiento (plan §5.5) */
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-ui: cubic-bezier(0.2, 0, 0, 1);
 }
 
-html {
-  -webkit-font-smoothing: antialiased;
+:root {
+  --duration-fast: 150ms;
+  --duration-base: 280ms;
+  --duration-reveal: 700ms;
+  --reveal-distance: 18px;
+  --header-height: 4.5rem;
 }
 
-body {
-  background: #fff;
-  color: var(--color-brand-900);
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-padding-top: var(--header-height);
+    /* Superficies del navegador que también son parte del diseño */
+    scrollbar-color: var(--color-brand-700) var(--color-cream-100);
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-cream-50);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-cream-50);
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  img,
+  video,
+  iframe {
+    max-width: 100%;
+  }
+
+  /* Foco visible, de alto contraste en cualquier fondo (anillo doble) */
+  :focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px var(--color-cream-50);
+    border-radius: 2px;
+  }
+
+  [data-tone="brand"] :focus-visible,
+  [data-tone="ink"] :focus-visible,
+  [data-on-dark] :focus-visible {
+    outline-color: var(--color-cream-50);
+    box-shadow: 0 0 0 6px var(--color-brand-900);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/*
+ * Revelado al entrar en el viewport (componente <Reveal>).
+ * El contenido es visible SIN JavaScript: solo se oculta cuando <html class="js">
+ * ya está activo (lo marca un script mínimo en layout.tsx).
+ */
+html.js [data-reveal]:not(.is-visible) {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-distance), 0);
+}
+
+html.js [data-reveal] {
+  transition:
+    opacity var(--duration-reveal) var(--ease-out-soft),
+    transform var(--duration-reveal) var(--ease-out-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal]:not(.is-visible) {
+    opacity: 1;
+    transform: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

@@ -194,9 +194,11 @@ Las categorías del sitio actual existen y tienen URL conocida (MD §1): `/categ
 
 **Escena física (decide claro/oscuro):** un dueño de cafetería o comprador de un negocio en Medellín revisa proveedores desde el celular, con luz de día, entre servicios. → **Un solo tema claro-dominante, mobile-first.** No hay selector de modo oscuro.
 
-### 5.2 Paleta (propuesta — derivada de `#25094b`)
+### 5.2 Paleta (**CONFIRMADA el 2026-11-04**)
 
-Solo `#25094b` está documentado por el cliente; **el resto son derivados** y se confirman contra el logo real en F2-02. Contrastes calculados (WCAG 2.x) el 2026-11-04:
+> **Cambio respecto a la propuesta original:** al revisar el logo real (óvalo **rojo** `#ed2121` con borde cobre `#7c341c→#f25d2a`, franja negra y letras crema) se vio que el morado `#25094b` solo es el `theme-color` del sitio actual. El usuario confirmó: **morado como banda envolvente + crema como base + el rojo del logo como acento** (oscurecido para cumplir AA). El «caramelo» de la propuesta inicial era inventado y se eliminó.
+
+`#25094b` (sitio actual) y el rojo/cobre (logo) son los colores reales de la marca; el resto son derivados. Implementados en `src/app/globals.css`. Contrastes calculados (WCAG 2.x) el 2026-11-04:
 
 | Token | Valor | Uso | Contraste verificado |
 |---|---|---|---|
@@ -207,18 +209,21 @@ Solo `#25094b` está documentado por el cliente; **el resto son derivados** y se
 | `--color-cream-100` | `#f3eadb` | Fondo de sección cálida | texto brand-900: **14.4:1** |
 | `--color-ink` | `#1b1230` | Texto principal | sobre crema-50: **16.6:1** |
 | `--color-roast` | `#4a2c1a` | Detalles «tostado» | sobre crema-100: **10.6:1** |
-| `--color-caramel` | `#d9902f` | Acento / CTA principal | sobre brand-900: **6.5:1**; texto `ink` sobre caramelo: **6.8:1** |
-| `--color-caramel-deep` | `#9a5a0e` | Acento sobre claro (texto/enlaces) | sobre crema-50: **5.1:1** |
-| `--color-whatsapp` | *(verde de marca WhatsApp, a definir)* | Solo botones de WhatsApp | verificar al definirlo |
+| `--color-accent` | `#c4161c` | Acento / CTA principal (rojo del logo, oscurecido) | texto crema sobre el botón: **5.6:1**; como texto sobre crema-50: **5.6:1** |
+| `--color-accent-strong` | `#a50f16` | Hover del CTA | blanco: **7.8:1** |
+| `--color-accent-soft` | `#ff6b6b` | Acento como **texto** sobre morado | sobre brand-900: **6.2:1** |
+| `--color-copper` | `#7c341c` | Detalle cálido (borde del logo) | sobre crema-50: **8.3:1** |
+| `--color-muted` | `#5b4a78` | Texto secundario sobre claro | sobre crema-50: **7.2:1** |
+| `--color-whatsapp` | `#0e7a43` (hover `#0b6e3b`) | **Solo** el botón flotante de WhatsApp | blanco: **5.4:1** |
 
-> ⚠️ **Regla:** `--color-caramel` sobre crema da solo **2.45:1** → **prohibido como color de texto sobre claro**. Para texto de acento sobre claro, usar `--color-caramel-deep`.
+> ⚠️ **Reglas de color:** (1) el rojo **exacto** del logo (`#ed2121`) da solo **4.3:1** con texto blanco y **4.0:1** sobre crema → no usarlo como fondo de texto ni como texto; vive solo en el logo. (2) El borde del botón rojo sobre morado es **2.9:1**; lo que identifica el control es su etiqueta (5.6:1). (3) Sobre morado, el texto de acento usa `accent-soft`, no `accent`.
 > Definir en `@theme` de Tailwind v4 (colores en OKLCH o hex), con alias semánticos (`--surface`, `--on-surface`, `--accent`) para no usar tonos crudos en los componentes.
 
 ### 5.3 Tipografía (propuesta — por validar en F2-02)
 
 - **Máximo dos familias**, autoalojadas con `next/font`, `display: swap`, subconjunto latino.
 - **Display con carácter** (titulares, cifras) + **cuerpo humanista legible**. La skill `impeccable` desaconseja por reflejo estas familias: *Fraunces, Playfair, Cormorant, Lora, Crimson, Newsreader, Syne, Space Grotesk/Mono, IBM Plex, Inter como display, DM Sans/Serif, Outfit, Plus Jakarta Sans, Instrument Sans.* **No usarlas** salvo justificación escrita.
-- Candidatos a evaluar en F2-02 (comprobar disponibilidad en `next/font/google`): *Bricolage Grotesque* (display) + *Hanken Grotesk* (cuerpo), o *Familjen Grotesk* + *Figtree*. Elegir una pareja y registrarla aquí.
+- **Elegida el 2026-11-04: _Bricolage Grotesque_ (display) + _Hanken Grotesk_ (cuerpo)**, cargadas con `next/font/google` en `src/app/layout.tsx` (variables `--font-display-face` y `--font-body`). Verificado: el build las autoaloja. Pendiente en F5-06: revisar que solo se descarguen los archivos necesarios (el build emite 7 `woff2`).
 - **Escala fluida** con `clamp()` (mobile 360 px → desktop 1440 px); cuerpo mínimo 16 px, interlineado 1.5–1.65, medida de línea 60–75 caracteres.
 - `text-wrap: balance` en títulos, `text-wrap: pretty` en párrafos; `tabular-nums` si hay cifras; `-webkit-font-smoothing: antialiased` en la raíz.
 - Roles tipográficos definidos como tokens: `display`, `h1`–`h3`, `lead`, `body`, `small`, `label`. Los componentes usan roles, no tamaños sueltos.
@@ -501,7 +506,7 @@ Shaddai/
 ### 9.2 Contratos clave (descripción, no implementación)
 
 - **`Section`**: `tone: 'brand' | 'cream' | 'cream-warm' | 'ink'`, `id`, `aria-labelledby`; define fondo, color de texto y borde superior/inferior con forma.
-- **`Button` / `LinkButton`**: variantes `primary` (caramelo), `secondary` (contorno), `whatsapp`; tamaños `md`/`lg`; renderiza `<a>` si recibe `href`. Estado de enfoque visible, `scale(0.96)` al presionar, área táctil ≥ 44 px.
+- **`Button` / `LinkButton`**: variantes `primary` (rojo acento) y `secondary` (contorno que hereda el color de la sección); tamaños `md`/`lg`. *(No hay variante `whatsapp`: la acción primaria «Cotizar por WhatsApp» usa `primary` con el ícono; el verde de WhatsApp es exclusivo del botón flotante.)*; renderiza `<a>` si recibe `href`. Estado de enfoque visible, `scale(0.96)` al presionar, área táctil ≥ 44 px.
 - **`Picture`**: `sources: {src, width, type}[]`, `sizes`, `alt`, `width`, `height`, `priority?` (→ `fetchpriority="high"`, sin `loading="lazy"`).
 - **`Reveal`**: `as`, `delay?`, `once` (siempre `true`); aplica clases de estado; no oculta contenido si no hay JS.
 - **`WhatsAppFab` / botones de WhatsApp**: siempre construyen el enlace con `buildWhatsAppUrl()`; nunca texto/URL a mano.
@@ -666,6 +671,15 @@ Ya soportado por diseño: `buildWhatsAppUrl(template, { product })` incluye nomb
 ## 13. Roadmap de implementación
 
 Convenciones: **ID** = `F<fase>-<n>`. Una tarea = un commit (o un PR pequeño). **No avanzar de fase sin cumplir sus criterios de aceptación (sección 14).** Cada tarea indica su **skill** cuando aplica.
+
+### Estado de avance (actualizado el 2026-11-04)
+
+| Fase | Estado | Pendiente / notas |
+|---|---|---|
+| **1 — Base** | ✅ Hecha, salvo F1-08 | **F1-08** (despliegue de humo en Vercel y Cloudflare Pages) requiere las cuentas del usuario. F1-07 cubierta con activos provisionales (`docs/activos-provisionales.md`) |
+| **2 — Identidad y componentes** | ✅ Hecha (F2-01 a F2-11) | Desviaciones: no se crearon `Card` ni `VisuallyHidden` (se usa `sr-only` de Tailwind; `Card` se extraerá al aparecer dos veces, regla 9.3). F2-10 `Reveal` implementado con su CSS, pero **sin usar todavía** (se aplica en F3/F5). `content/channels.ts` y `product-lines.ts` se adelantaron desde F3-01 (datos del MD) porque F2-11 los necesita |
+| **3 — Landing** | ⏳ Pendiente | **Bloqueada por D-05 (imágenes ≥ 1200 px) y D-18 (¿fabrica o distribuye?)** para hero y mensaje principal; D-07 para la historia |
+| 4–6 | ⏳ Pendientes | — |
 
 ### Fase 1 — Configuración y estructura base
 
@@ -858,11 +872,11 @@ Convenciones: **ID** = `F<fase>-<n>`. Una tarea = un commit (o un PR pequeño). 
 
 | ID | Pregunta / dato faltante | Necesario antes de | Recomendación |
 |---|---|---|---|
-| **D-01** | ¿Cuál de los dos móviles (+57 304 202 9533 / +57 314 691 5481) es el de **WhatsApp**? | F2-07 (bloquea) | Confirmar con el cliente; no asumir |
+| ~~**D-01**~~ | ~~¿Cuál de los dos móviles es el de **WhatsApp**?~~ | — | **RESUELTO 2026-11-04 (por el usuario): +57 304 202 9533** → `NEXT_PUBLIC_WHATSAPP_NUMBER=573042029533`. Conviene que el cliente lo ratifique antes de producción |
 | **D-02** | Proveedor/destino del **formulario** (¿a qué correo llega? ¿servicio externo tipo formulario→correo, Worker propio de Cloudflare, otro?) y si el correo es obligatorio | F4-06 (bloquea «Enviar mensaje») | Servicio externo con `POST` simple + camino WhatsApp siempre activo |
 | **D-03** | **Política de tratamiento de datos / autorización** (Ley 1581 de 2012): texto y URL. Validar con quien corresponda legalmente | F4-09 (bloquea publicación del formulario) | Pedir al cliente su política vigente |
 | **D-04** | Dominio/subdominio para publicar la nueva web y acceso al DNS | F1-08 / F6-09 | Subdominio durante Fase 1 |
-| **D-05** | **Activos originales** en alta calidad: logo (SVG/PNG), fotos de producto, galería, íconos | F2-02 / F3 | Solicitar al cliente; usar los del sitio actual solo como provisionales (con aprobación para descargarlos) |
+| **D-05** | **Activos originales** en alta calidad: logo (**SVG** o PNG ≥ 1200 px), fotos de producto (≥ 1200 px, fondo transparente), galería | **F3-02 (bloquea el hero)** | Los provisionales ya están en `public/images/` (ver `docs/activos-provisionales.md`): logo 486×297 px y productos de **320×320 px** — insuficientes para pantallas de alta densidad |
 | **D-06** | Cómo presentar los **dos nombres** (*Shaddai Colombia* marca / *Shaddai Insumos S.A.S.* razón social) | F2-08 | Marca en header/hero; razón social en footer, JSON-LD y mensajes de WhatsApp |
 | **D-07** | **Texto literal** de la frase poética del grano (el MD solo la describe) | F3-06 (bloquea) | Copiarlo de la página actual con aprobación del cliente |
 | **D-08** | **Texto literal** de los dos mensajes de bienvenida de WhatsApp | F4-02 | Copiar del botón actual o redactar y validar |
@@ -875,6 +889,8 @@ Convenciones: **ID** = `F<fase>-<n>`. Una tarea = un commit (o un PR pequeño). 
 | **D-15** | **Enlaces de Facebook/Instagram** definitivos (el de Facebook es largo y poco amigable, MD §12) | F2-08 | Pedir una URL corta oficial |
 | **D-16** | ¿Antes de publicar se desea **antispam reforzado** (p. ej. Cloudflare Turnstile) además del *honeypot*? | F4-06 | *Honeypot* en v1; Turnstile solo si hay spam real |
 | **D-17** | Dirección de mapa embebible (`iframe`) si se quiere mapa interactivo | F4-08 | Solo enlace «Cómo llegar» si no se provee |
+| **D-18** | **¿Shaddai fabrica o solo distribuye?** El flyer de redes del sitio actual dice «Somos fabricantes» (y «SIN problemas de compactación», «Excelente espuma y cremosidad»); el texto del sitio dice que *no producen todo lo que venden*. Afecta al hero, la historia y «La mejor taza servida» | F3-02 (bloquea el mensaje principal) | No afirmar ninguna de las dos hasta confirmar; usar la formulación del MD («selecciona para distribuir») |
+| **D-19** | ¿Es ese flyer (portrait 853×1066) la imagen que se quiere para redes? Si no, diseñar un `og:image` 1200×630 | F3-09 | Crear uno nuevo con logo + producto |
 
 ---
 
