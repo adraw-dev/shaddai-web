@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { WhatsAppIcon } from "@/components/icons";
 import { MobileNav } from "@/components/layout/mobile-nav";
+import { Picture } from "@/components/media/picture";
 import { LinkButton } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { siteConfig } from "@/content/site";
@@ -11,22 +12,16 @@ const CTA_LABEL = "Cotizar por WhatsApp";
 
 /**
  * Header fijo (sticky) sobre el morado de marca; se funde con el hero.
- * TODO(F5-02): estado al hacer scroll (sombra/solidez).
+ * Al hacer scroll gana una sombra (HeaderScrollState + globals.css).
  */
 export function Header() {
   const ctaHref = buildWhatsAppUrl(quoteMessage());
 
   return (
-    <header data-tone="brand" className="sticky top-0 z-40 bg-brand-900 text-cream-50">
+    <header data-site-header data-tone="brand" className="sticky top-0 z-40 bg-brand-900 text-cream-50">
       <Container className="relative flex h-[var(--header-height)] items-center justify-between gap-6">
         <Link href="/" aria-label={`${siteConfig.brandName} — inicio`} className="shrink-0">
-          <img
-            src={siteConfig.logo.src}
-            width={siteConfig.logo.width}
-            height={siteConfig.logo.height}
-            alt={siteConfig.logo.alt}
-            className="h-12 w-auto"
-          />
+          <Picture media={siteConfig.logo} sizes="80px" eager className="w-20" />
         </Link>
 
         <nav aria-label="Principal" className="hidden items-center gap-1 lg:flex">

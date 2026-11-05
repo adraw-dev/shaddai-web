@@ -21,7 +21,7 @@ export function ProductLines({ lines, catalogUrl }: ProductLinesProps) {
   const { lines: copy } = homeContent;
 
   return (
-    <Section tone="cream" id="productos" labelledBy="lineas-title">
+    <Section tone="cream" sheet id="productos" labelledBy="lineas-title">
       <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
         <div className="space-y-6 lg:pt-4">
           <Heading id="lineas-title">{copy.title}</Heading>

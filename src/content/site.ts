@@ -1,3 +1,5 @@
+import { media } from "@/content/media";
+
 /**
  * Datos de negocio de Shaddai — ÚNICA fuente (plan §16, regla 3).
  * Todos los valores provienen de docs/referencia/Sobre_nosotros_Shaddai_Colombia.md (§8, §9, §11).
@@ -57,12 +59,7 @@ export const siteConfig = {
     instagram: "https://www.instagram.com/shaddai.insumos/",
   },
 
-  logo: {
-    src: "/images/brand/shaddai-logo.png",
-    width: 486,
-    height: 297,
-    alt: "Shaddai Insumos",
-  },
+  logo: media("logo", "Shaddai Insumos"),
 } as const;
 
 export type SiteConfig = typeof siteConfig;

@@ -26,7 +26,7 @@ export function Channels({ channels }: ChannelsProps) {
   const others = channels.filter((c) => c.slug !== "horeca");
 
   return (
-    <Section tone="brand" id="canales" labelledBy="canales-title">
+    <Section tone="brand" sheet id="canales" labelledBy="canales-title">
       <div className="max-w-3xl space-y-5">
         <Heading id="canales-title">{copy.title}</Heading>
         <Text variant="lead" muted>

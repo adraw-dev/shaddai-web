@@ -30,7 +30,7 @@ export default function ContactPage() {
     <main className="flex flex-1 flex-col">
       <ContactHero />
 
-      <Section tone="cream" labelledBy="form-title">
+      <Section tone="cream" sheet labelledBy="form-title">
         <div className="grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
           <div className="space-y-8">
             <Heading id="form-title">{contactContent.form.title}</Heading>

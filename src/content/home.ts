@@ -1,4 +1,4 @@
-import type { Media } from "@/domain/catalog";
+import { media } from "@/content/media";
 
 /**
  * Textos de la Landing (F3-01). BORRADOR para aprobación del cliente.
@@ -9,13 +9,6 @@ import type { Media } from "@/domain/catalog";
  * D-18: no se afirma «fabricamos» ni «solo distribuimos»; se usa «distribuimos», como el MD.
  */
 
-const photo = (src: string, alt: string): Media => ({
-  alt,
-  width: 800,
-  height: 800,
-  variants: [{ src, width: 800, mime: "image/jpeg" }],
-});
-
 export const homeContent = {
   hero: {
     // MD §1: título del bloque principal.
@@ -24,10 +17,7 @@ export const homeContent = {
     quoteCta: "Cotizar por WhatsApp",
     catalogCta: "Conoce nuestro catálogo",
     // Provisional (800 px). Pedir originales (D-05).
-    image: photo(
-      "/images/gallery/galeria-2.jpg",
-      "Taza oscura llena de granos de café tostado",
-    ),
+    image: media("hero", "Taza oscura llena de granos de café tostado"),
   },
 
   lines: {
@@ -59,7 +49,7 @@ export const homeContent = {
     // MD §4 «Café fresco».
     freshCoffee:
       "No hay una segunda oportunidad para causar una primera impresión. Por eso el café de su negocio debe ser de calidad: un grano limpio y con un sabor en taza claramente por encima del promedio.",
-    image: photo("/images/gallery/galeria-3.jpg", "Granos de café tostado en un cuenco blanco"),
+    image: media("calidad", "Granos de café tostado en un cuenco blanco"),
   },
 
   story: {

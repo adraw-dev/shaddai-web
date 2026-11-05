@@ -15,7 +15,7 @@ export function ValueProp() {
   const { quality: copy } = homeContent;
 
   return (
-    <Section tone="cream" id="calidad" labelledBy="calidad-title">
+    <Section tone="cream" sheet id="calidad" labelledBy="calidad-title">
       <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <div className="space-y-6">
           <Heading id="calidad-title">{copy.title}</Heading>

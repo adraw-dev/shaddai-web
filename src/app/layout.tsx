@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Hanken_Grotesk } from "next/font/google";
-import type { ReactNode } from "react";
+import { ViewTransition, type ReactNode } from "react";
 import "./globals.css";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
+import { HeaderScrollState } from "@/components/layout/header-scroll-state";
 import { SkipLink } from "@/components/layout/skip-link";
 import { WhatsAppFab } from "@/components/layout/whatsapp-fab";
 import { siteConfig } from "@/content/site";
@@ -49,9 +50,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body className="flex min-h-dvh flex-col">
         <SkipLink />
+        <HeaderScrollState />
         <Header />
         <div id="contenido" tabIndex={-1} className="flex flex-1 flex-col outline-none">
-          {children}
+          <ViewTransition>{children}</ViewTransition>
         </div>
         <Footer />
         <WhatsAppFab />

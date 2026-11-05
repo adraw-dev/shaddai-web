@@ -16,7 +16,7 @@ export function Location() {
   const { address, mapsUrl } = siteConfig.contact;
 
   return (
-    <Section tone="cream-warm" labelledBy="ubicacion-title" className="py-12 md:py-20">
+    <Section tone="cream-warm" sheet size="compact" labelledBy="ubicacion-title">
       <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <div className="space-y-5">
           <Heading id="ubicacion-title" size="h2">

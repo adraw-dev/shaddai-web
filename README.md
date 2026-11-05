@@ -60,8 +60,21 @@ Mismo artefacto estático (`out/`) en ambas plataformas; detalle en el plan, sec
 | TypeScript | ^5 |
 | Tailwind CSS | ^4 (loader `@tailwindcss/turbopack`) |
 | JS de primera carga, página vacía | 132 kB gzip en navegadores modernos (170.7 kB con el polyfill `noModule`) |
+| JS de primera carga, tras F5 | 141.9 kB (landing) · 143.1 kB (Contáctenos) |
+| Imágenes de la landing (navegador moderno, 1x) | 32.4 kB (antes de optimizar: 599 kB) |
 | Presupuesto de JS (plan §10.3) | ≤ 150 kB gzip |
 | `npm audit --omit=dev` | 0 vulnerabilidades (las moderadas reportadas por `npm audit` son de herramientas de desarrollo ESLint) |
+
+## Imágenes
+
+Los originales viven en `assets-src/images/`; lo que se sirve (AVIF + WebP + respaldo, varios anchos) está en `public/images/` y se genera con un script puntual. `sharp` **no** es dependencia del proyecto:
+
+```bash
+npm install --no-save sharp
+node scripts/optimize-images.mjs
+```
+
+El script también regenera `src/content/images.generated.json`, que consume `src/content/media.ts`. Los archivos generados se versionan: el build no necesita `sharp`.
 
 ## Estructura
 

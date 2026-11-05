@@ -1,5 +1,6 @@
 import { WhatsAppIcon } from "@/components/icons";
 import { Picture } from "@/components/media/picture";
+import { WordReveal } from "@/components/motion/word-reveal";
 import { LinkButton } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Section } from "@/components/ui/section";
@@ -14,17 +15,17 @@ type HeroProps = {
 /**
  * Hero: promesa + acción primaria. Un solo punto focal por viewport.
  * La foto es la imagen candidata a LCP (priority) y se recorta en móvil para no empujar el CTA.
- * TODO(F5-01): entrada escalonada del H1 (staggered-word-reveal), una sola vez.
+ * El título entra palabra por palabra una vez al cargar (WordReveal, solo CSS).
  */
 export function Hero({ quoteUrl, catalogUrl }: HeroProps) {
   const { hero } = homeContent;
 
   return (
-    <Section tone="brand" labelledBy="hero-title" className="md:py-28">
+    <Section tone="brand" size="hero" labelledBy="hero-title">
       <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
         <div className="space-y-8">
           <Heading level={1} size="display" id="hero-title">
-            {hero.title}
+            <WordReveal text={hero.title} />
           </Heading>
           <Text variant="lead" muted className="max-w-xl">
             {hero.lead}

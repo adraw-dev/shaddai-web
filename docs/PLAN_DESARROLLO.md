@@ -255,14 +255,14 @@ Las categorías del sitio actual existen y tienen URL conocida (MD §1): `/categ
 
 | Dónde | Efecto | Técnica | Skill de referencia |
 |---|---|---|---|
-| Hero | Entrada escalonada del H1 por palabras, **una vez** | CSS + `IntersectionObserver`, contenido visible sin JS | `staggered-word-reveal` |
+| Hero | Entrada escalonada del H1 por palabras, **una vez** | **CSS puro** (`<WordReveal>`: animación al cargar con `backwards`). Diferencia deliberada con la skill: sin `IntersectionObserver` ni estado oculto dependiente de JS, para no retrasar el LCP esperando la hidratación | `staggered-word-reveal` |
 | Secciones | Revelado al entrar al viewport (fade + 16–20 px), **una vez** | Componente `Reveal` (IO) | `transitions-dev` · «Texts reveal» |
-| Entre secciones | Cambio de tono de fondo (morado ↔ crema) con borde de sección con forma (curva/diagonal suave en CSS/SVG estático) | CSS estático | `impeccable` (`layout`, `animate`) |
+| Entre secciones | **«Hojas»**: cada sección se superpone a la anterior con borde superior redondeado (radio = solape, 40 px / 48 px desde 768 px) y cambia de tono (morado ↔ crema ↔ crema cálida). Footer incluido | CSS estático (`Section sheet`, `--sheet-overlap`) | `impeccable` (`layout`, `animate`) |
 | Header | Pasa de transparente a sólido al hacer scroll | CSS + 1 listener pasivo / IO | `make-interfaces-feel-better` |
 | Botones | Hover ≤ 150 ms, `scale(0.96)` al presionar, flecha desplazable en enlaces «ver más» | CSS | `transitions-dev` · «Learn more hover»; `make-interfaces-feel-better` |
 | Menú móvil | Despliegue con origen consciente | CSS | `transitions-dev` · «Menu dropdown»/«Panel reveal» |
 | Formulario | Sacudida de error por campo; marca de éxito con trazo | CSS | `transitions-dev` · «Error state shake», «Success check» |
-| Navegación entre páginas | Fundido corto vía *View Transitions* como **mejora progresiva** (si el navegador no la soporta, no pasa nada) | CSS `@view-transition` / API | `transitions-dev` · «Page…» |
+| Navegación entre páginas | Fundido corto (≈ 220 ms) como **mejora progresiva**; header y pie permanecen | `<ViewTransition>` de React 19.3 envolviendo el contenido en `layout.tsx` (Next 16, sin configuración) + CSS de duración y `prefers-reduced-motion`. **Pendiente de verificar en un navegador visible (F6)** | `transitions-dev` · «Page…» |
 
 **Reglas duras**
 - Solo animar `transform` y `opacity` (y `filter` puntual). **Nunca** `transition: all`. `will-change` solo si hay tirones medibles.
@@ -375,7 +375,7 @@ Un distribuidor B2B de insumos necesita **claridad, velocidad y confianza**; su 
 | `vitest` | Pruebas unitarias de funciones puras críticas (`buildWhatsAppUrl`, validadores, `env`). | F6 |
 | `@playwright/test` + `@axe-core/playwright` | Prueba E2E de navegación y formulario, capturas responsive y verificación automática de accesibilidad (lo que no se puede garantizar «a ojo»). | F6 |
 
-**Condicional — _puerta GSAP_:** `gsap` (+ `@gsap/react`). Solo se instala si se cumplen **las tres**: (1) el momento está en el inventario de 5.5 o se agregó con aprobación; (2) se probó en CSS/IO y no alcanza; (3) se mide que no empeora LCP/INP, cargándolo de forma diferida solo en esa sección. Registrar la decisión en este documento.
+**Condicional — _puerta GSAP_:** `gsap` (+ `@gsap/react`). Solo se instala si se cumplen **las tres**: (1) el momento está en el inventario de 5.5 o se agregó con aprobación; (2) se probó en CSS/IO y no alcanza; (3) se mide que no empeora LCP/INP, cargándolo de forma diferida solo en esa sección. Registrar la decisión en este documento. **Decisión F5-07 (2026-11-05): descartado.** Todo el movimiento del inventario se resolvió con CSS + `IntersectionObserver`; `gsap` no se instala.
 
 **Prohibido sin actualizar esta tabla:** `framer-motion`/`motion`, `lenis`, `three`/`@react-three/*`, `lucide-react`, `@radix-ui/*`, `shadcn`, `clsx`/`tailwind-merge`/`cva` (se usa un helper `cn()` de 3 líneas), `axios`, `zod`, `react-hook-form`, librerías de carrusel.
 
@@ -682,7 +682,8 @@ Convenciones: **ID** = `F<fase>-<n>`. Una tarea = un commit (o un PR pequeño). 
 | **2 — Identidad y componentes** | ✅ Hecha (F2-01 a F2-11) | Desviaciones: no se crearon `Card` ni `VisuallyHidden` (se usa `sr-only` de Tailwind; `Card` se extraerá al aparecer dos veces, regla 9.3). F2-10 `Reveal` implementado con su CSS, pero **sin usar todavía** (se aplica en F3/F5). `content/channels.ts` y `product-lines.ts` se adelantaron desde F3-01 (datos del MD) porque F2-11 los necesita |
 | **3 — Landing** | ✅ Construida como **borrador** (F3-01 a F3-10) | Funciona con activos y textos provisionales. **Antes de publicar:** D-05 (imágenes de producto de 320 px y logo de 486 px → originales), D-07 (frase poética: la sección no la muestra hasta tener el texto), D-18 (el copy usa «distribuimos», sin afirmar «fabricamos»), D-19 (`og:image`), D-20 (MAQUILA 404). Textos de `content/home.ts` pendientes de aprobación del cliente. JS de primera carga: 140.6 kB gzip (presupuesto 150 kB) |
 | **4 — Contáctenos** | ✅ Construida (F4-01 a F4-10) | Probada con un endpoint simulado local: validación, éxito, fallo 500, red caída, datos conservados, honeypot y WhatsApp. **Pendiente del cliente antes de publicar el envío por correo:** D-02 (destino: sin `NEXT_PUBLIC_CONTACT_ENDPOINT` solo hay WhatsApp) y D-03 (política de datos; el texto de autorización de `content/contact.ts` es una propuesta que debe validar quien corresponda legalmente). Sin D-17 no hay mapa embebido (solo «Cómo llegar»). El botón flotante de WhatsApp se oculta en esta página. JS: 143.0 kB gzip |
-| 5–6 | ⏳ Pendientes | — |
+| **5 — Animaciones, responsive y optimización** | ✅ Hecha (F5-01 a F5-09) | **Medido (2026-11-05):** imágenes que descarga un navegador moderno en la landing **599 kB → 32.4 kB** (AVIF/WebP vía `scripts/optimize-images.mjs`); JS 141.9 kB (landing) y 143.1 kB (Contáctenos), presupuesto 150 kB; CLS 0; sin desbordamiento horizontal en 360/390/768/1024/1280/1536 px en ambas páginas; auditoría automática en el navegador: 0 fallos de contraste (menor ratio real 5.61:1), 0 controles sin nombre, 0 objetivos táctiles < 44 px, un `h1` por página. **Decisión F5-07:** GSAP **descartado** (todo se resolvió con CSS + `IntersectionObserver`; no se instala). `DESIGN.md` generado; su «Creative North Star» es una propuesta pendiente de confirmación |
+| **6 — Pruebas y despliegue** | ⏳ Pendiente | **Verificaciones que no se pudieron hacer en F5 y deben hacerse en F6:** (1) la transición de vista entre páginas con un navegador **visible y con foco** (el panel de pruebas no dibujaba fotogramas: ni una transición nativa mínima se resolvía; la navegación sí termina); (2) Lighthouse/LCP reales (no se pudo medir LCP); (3) que los builds **Linux** de Vercel y Cloudflare emitan los archivos de segmento con el nombre que el cliente pide (`__next.contactenos.__PAGE__.txt`): en este build de Windows se emitieron como carpeta y el prefetch da un 404 inofensivo (Next recurre a `index.txt` y la navegación funciona); (4) `prefers-reduced-motion` y «sin JavaScript» en un navegador real |
 
 ### Fase 1 — Configuración y estructura base
 

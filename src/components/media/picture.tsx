@@ -7,19 +7,22 @@ import { cn } from "@/lib/cn";
  *
  * - Variantes con `mime` distinto de la última se emiten como <source type=…> (AVIF/WebP primero).
  * - `priority` → imagen candidata a LCP: `fetchpriority="high"` y sin carga diferida.
+ * - `eager` → visible en la primera pantalla pero NO es el LCP (p. ej. el logo): sin carga diferida
+ *   y sin subir su prioridad.
  * - width/height SIEMPRE presentes (evita CLS); `alt=""` solo si es decorativa.
  */
 type PictureProps = {
   media: Media;
   sizes: string;
   priority?: boolean;
+  eager?: boolean;
   className?: string;
 };
 
 const srcSet = (variants: Media["variants"]) =>
   variants.map((v) => `${v.src} ${v.width}w`).join(", ");
 
-export function Picture({ media, sizes, priority = false, className }: PictureProps) {
+export function Picture({ media, sizes, priority = false, eager = false, className }: PictureProps) {
   const fallbackMime = media.variants[media.variants.length - 1]?.mime;
   const fallbackVariants = media.variants.filter((v) => v.mime === fallbackMime || !v.mime);
   const modernMimes = [...new Set(media.variants.map((v) => v.mime).filter((m): m is string => !!m && m !== fallbackMime))];
@@ -42,7 +45,7 @@ export function Picture({ media, sizes, priority = false, className }: PicturePr
         width={media.width}
         height={media.height}
         alt={media.alt}
-        loading={priority ? "eager" : "lazy"}
+        loading={priority || eager ? "eager" : "lazy"}
         decoding="async"
         fetchPriority={priority ? "high" : undefined}
         className={cn("h-auto max-w-full", className)}

@@ -65,6 +65,14 @@
   --duration-reveal: 700ms;
   --reveal-distance: 18px;
   --header-height: 4.5rem;
+  /* Solape de las "hojas" entre secciones (ver ui/section.tsx): radio = solape */
+  --sheet-overlap: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --sheet-overlap: 3rem;
+  }
 }
 
 @layer base {
@@ -203,4 +211,50 @@ textarea[aria-invalid="true"] {
 .check-draw {
   stroke-dasharray: 24;
   animation: check-draw 450ms var(--ease-out-soft) 120ms both;
+}
+
+/*
+ * Hero: entrada palabra por palabra del título (componente <WordReveal>, plan §5.5).
+ * CSS puro: la animación corre al cargar; `backwards` mantiene el estado inicial durante el retardo.
+ */
+@keyframes word-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+}
+
+.word-reveal__word {
+  display: inline-block;
+  animation: word-rise 700ms var(--ease-out-soft) backwards;
+  animation-delay: calc(var(--word-index, 0) * 60ms);
+}
+
+/* Header: sombra cuando la página ya no está arriba (ver <HeaderScrollState>). */
+header[data-site-header] {
+  transition: box-shadow var(--duration-base) var(--ease-ui);
+}
+
+header[data-site-header][data-scrolled] {
+  box-shadow:
+    0 1px 0 rgb(251 246 238 / 0.08),
+    0 12px 24px -14px rgb(0 0 0 / 0.5);
+}
+
+/*
+ * Transición entre páginas (mejora progresiva con <ViewTransition> de React, plan §5.5):
+ * fundido corto del contenido; header y pie permanecen. Sin soporte del navegador no pasa nada.
+ */
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 220ms;
+  animation-timing-function: var(--ease-ui);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }

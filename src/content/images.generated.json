@@ -1,0 +1,188 @@
+{
+  "logo": {
+    "width": 486,
+    "height": 297,
+    "variants": [
+      {
+        "src": "/images/brand/shaddai-logo-200.avif",
+        "width": 200,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/brand/shaddai-logo-400.avif",
+        "width": 400,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/brand/shaddai-logo-200.webp",
+        "width": 200,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/brand/shaddai-logo-400.webp",
+        "width": 400,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/brand/shaddai-logo-400.png",
+        "width": 400,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "linea-lattes": {
+    "width": 320,
+    "height": 320,
+    "variants": [
+      {
+        "src": "/images/products/linea-lattes-176.avif",
+        "width": 176,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/products/linea-lattes-320.avif",
+        "width": 320,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/products/linea-lattes-176.webp",
+        "width": 176,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/products/linea-lattes-320.webp",
+        "width": 320,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/products/linea-lattes-320.png",
+        "width": 320,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "linea-cafe": {
+    "width": 320,
+    "height": 320,
+    "variants": [
+      {
+        "src": "/images/products/linea-cafe-176.avif",
+        "width": 176,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/products/linea-cafe-320.avif",
+        "width": 320,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/products/linea-cafe-176.webp",
+        "width": 176,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/products/linea-cafe-320.webp",
+        "width": 320,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/products/linea-cafe-320.png",
+        "width": 320,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "linea-capuccinos": {
+    "width": 320,
+    "height": 320,
+    "variants": [
+      {
+        "src": "/images/products/linea-capuccinos-176.avif",
+        "width": 176,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/products/linea-capuccinos-320.avif",
+        "width": 320,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/products/linea-capuccinos-176.webp",
+        "width": 176,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/products/linea-capuccinos-320.webp",
+        "width": 320,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/products/linea-capuccinos-320.png",
+        "width": 320,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "hero": {
+    "width": 800,
+    "height": 800,
+    "variants": [
+      {
+        "src": "/images/gallery/galeria-2-480.avif",
+        "width": 480,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/gallery/galeria-2-800.avif",
+        "width": 800,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/gallery/galeria-2-480.webp",
+        "width": 480,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/gallery/galeria-2-800.webp",
+        "width": 800,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/gallery/galeria-2-800.jpg",
+        "width": 800,
+        "mime": "image/jpeg"
+      }
+    ]
+  },
+  "calidad": {
+    "width": 800,
+    "height": 800,
+    "variants": [
+      {
+        "src": "/images/gallery/galeria-3-320.avif",
+        "width": 320,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/gallery/galeria-3-640.avif",
+        "width": 640,
+        "mime": "image/avif"
+      },
+      {
+        "src": "/images/gallery/galeria-3-320.webp",
+        "width": 320,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/gallery/galeria-3-640.webp",
+        "width": 640,
+        "mime": "image/webp"
+      },
+      {
+        "src": "/images/gallery/galeria-3-640.jpg",
+        "width": 640,
+        "mime": "image/jpeg"
+      }
+    ]
+  }
+}

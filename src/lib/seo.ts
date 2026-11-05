@@ -29,6 +29,8 @@ export const baseOpenGraph = {
 /** Datos estructurados de la organización/negocio local (schema.org). */
 export function organizationJsonLd() {
   const { contact, hoursSpec, social, legalName, brandName, logo } = siteConfig;
+  // Respaldo (PNG): es el formato que entienden todos los rastreadores.
+  const logoUrl = absoluteUrl(logo.variants[logo.variants.length - 1].src);
 
   return {
     "@context": "https://schema.org",
@@ -37,8 +39,8 @@ export function organizationJsonLd() {
     name: brandName,
     legalName,
     url: absoluteUrl("/"),
-    logo: absoluteUrl(logo.src),
-    image: absoluteUrl(logo.src),
+    logo: logoUrl,
+    image: logoUrl,
     telephone: contact.phones.map((p) => p.tel),
     email: contact.email,
     address: {

@@ -10,7 +10,7 @@ export function QuoteCta() {
   const { quote: copy } = homeContent;
 
   return (
-    <Section tone="brand" id="cotizar" labelledBy="cotizar-title">
+    <Section tone="brand" sheet id="cotizar" labelledBy="cotizar-title">
       <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-20">
         <div className="space-y-5">
           <Heading id="cotizar-title">{copy.title}</Heading>

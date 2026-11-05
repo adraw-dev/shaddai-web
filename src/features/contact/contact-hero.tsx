@@ -15,7 +15,7 @@ export function ContactHero() {
   const { hero } = contactContent;
 
   return (
-    <Section tone="brand" labelledBy="contacto-title" className="py-12 md:py-16">
+    <Section tone="brand" size="compact" labelledBy="contacto-title">
       <div className="max-w-2xl space-y-6">
         <Heading level={1} id="contacto-title">
           {hero.title}
