@@ -1,0 +1,15 @@
+# Strapi (cms/) — se versiona el código y los esquemas, no datos ni secretos.
+node_modules/
+build/
+dist/
+.strapi/
+.cache/
+.tmp/
+exports/
+*.log
+.env
+# Subidas de medios locales (se regeneran con `npm run seed`).
+public/uploads/*
+!public/uploads/.gitkeep
+# Tipos generados por Strapi en cada arranque.
+types/generated/

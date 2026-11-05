@@ -6,6 +6,7 @@ import { LinkButton } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { siteConfig } from "@/content/site";
 import { quoteMessage } from "@/content/whatsapp-messages";
+import { isCatalogEnabled } from "@/lib/catalog";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 const CTA_LABEL = "Cotizar por WhatsApp";
@@ -18,6 +19,11 @@ const CTA_LABEL = "Cotizar por WhatsApp";
  */
 export function Header() {
   const ctaHref = buildWhatsAppUrl(quoteMessage());
+  const catalogEnabled = isCatalogEnabled();
+  const nav = siteConfig.nav.map((item) => ({
+    label: item.label,
+    href: catalogEnabled && "catalogHref" in item ? item.catalogHref : item.href,
+  }));
 
   return (
     <header
@@ -31,7 +37,7 @@ export function Header() {
         </Link>
 
         <nav aria-label="Principal" className="hidden items-center gap-1 lg:flex">
-          {siteConfig.nav.map((item) => (
+          {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -46,7 +52,7 @@ export function Header() {
           </LinkButton>
         </nav>
 
-        <MobileNav items={siteConfig.nav} ctaHref={ctaHref} ctaLabel={CTA_LABEL} />
+        <MobileNav items={nav} ctaHref={ctaHref} ctaLabel={CTA_LABEL} />
       </Container>
     </header>
   );

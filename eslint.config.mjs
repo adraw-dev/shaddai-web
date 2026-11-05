@@ -17,6 +17,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Strapi (CMS) es un proyecto Node aparte con su propia configuración (docs/PLAN_STRAPI.md).
+    "cms/**",
   ]),
 ]);
 

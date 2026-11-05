@@ -260,6 +260,7 @@ Implementada en `src/app/globals.css`. Contrastes calculados (WCAG 2.x) el 2026-
 | Header | Pasa de transparente a sólido al hacer scroll | CSS + 1 listener pasivo / IO | `make-interfaces-feel-better` |
 | Botones | Hover ≤ 150 ms, `scale(0.96)` al presionar, flecha desplazable en enlaces «ver más» | CSS | `transitions-dev` · «Learn more hover»; `make-interfaces-feel-better` |
 | Menú móvil | Despliegue con origen consciente | CSS | `transitions-dev` · «Menu dropdown»/«Panel reveal» |
+| Tarjetas de producto (catálogo) | Al pasar el cursor o con foco de teclado: la imagen se atenúa y desenfoca levemente y aparece un botón «Ver más» (fundido + 4 px, 200 ms). Solo con puntero que admite *hover*; con movimiento reducido, sin desplazamiento. *(Pedido por el usuario el 2026-11-05)* | CSS (`group-hover`/`group-focus-within`) | `make-interfaces-feel-better` |
 | Formulario | Sacudida de error por campo; marca de éxito con trazo | CSS | `transitions-dev` · «Error state shake», «Success check» |
 | Navegación entre páginas | Fundido corto (≈ 220 ms) como **mejora progresiva**; header y pie permanecen | `<ViewTransition>` de React 19.3 envolviendo el contenido en `layout.tsx` (Next 16, sin configuración) + CSS de duración y `prefers-reduced-motion`. **Pendiente de verificar en un navegador visible (F6)** | `transitions-dev` · «Page…» |
 
@@ -880,6 +881,8 @@ Convenciones: **ID** = `F<fase>-<n>`. Una tarea = un commit (o un PR pequeño). 
 
 **Criterio de éxito de la preparación:** completar S-1…S-4 **sin modificar** los componentes `ui/` ni `features/home` más allá de cambiar las fuentes de datos.
 
+> **Iniciada el 2026-11-05** (rama `feat/strapi-catalogo`). Sub-plan, decisiones ST-01…ST-06 y modelo de contenido: [`PLAN_STRAPI.md`](PLAN_STRAPI.md). Primera entrega: S-1, S-2 y S-3.
+
 ---
 
 ## 16. Reglas de trabajo para agentes
@@ -894,7 +897,7 @@ Convenciones: **ID** = `F<fase>-<n>`. Una tarea = un commit (o un PR pequeño). 
 8. **Accesibilidad no es una fase:** foco visible, etiquetas, contraste y áreas táctiles desde la primera línea.
 9. **Verificar renderizado real** (móvil y desktop) antes de dar por terminada una tarea visual.
 10. **Tareas pequeñas, un commit por tarea**, en la carpeta `Shaddai/` (ver F1-01). No tocar nada fuera de ella.
-11. **No implementar nada de Strapi/catálogo/carrito/blog** salvo los puntos de preparación de 12.1.
+11. **Strapi y catálogo se rigen por [`PLAN_STRAPI.md`](PLAN_STRAPI.md)** (fase iniciada el 2026-11-05). Carrito/cesta y blog siguen fuera de alcance hasta S-5/S-7.
 12. Ante duda de diseño, aplicar `no-ai-design-slop` (prueba de eliminación) y, si persiste, preguntar al usuario.
 
 ---
@@ -925,6 +928,10 @@ Convenciones: **ID** = `F<fase>-<n>`. Una tarea = un commit (o un PR pequeño). 
 | **D-18** | **¿Shaddai fabrica o solo distribuye?** El flyer de redes del sitio actual dice «Somos fabricantes» (y «SIN problemas de compactación», «Excelente espuma y cremosidad»); el texto del sitio dice que *no producen todo lo que venden*. Afecta al hero, la historia y «La mejor taza servida» | F3-02 (bloquea el mensaje principal) | No afirmar ninguna de las dos hasta confirmar; usar la formulación del MD («selecciona para distribuir») |
 | **D-20** | `https://www.shaddaicolombia.com/categoria/maquila/` responde **404** en el sitio actual (verificado 2026-11-04) aunque el MD la lista; HORECA, VENDING y RETAIL responden 200. ¿La categoría se renombró, está vacía o se retiró? | F3 (ya mitigado) | Mientras no se aclare, la tarjeta MAQUILA ofrece «Consultar por WhatsApp» en lugar de un enlace roto (`href` ausente en `content/channels.ts`) |
 | **D-19** | ¿Es ese flyer (portrait 853×1066) la imagen que se quiere para redes? Si no, diseñar un `og:image` 1200×630 | F3-09 | Crear uno nuevo con logo + producto |
+| **D-21** | **Hosting de Strapi** y base de datos de producción (Strapi Cloud, Railway/Render + PostgreSQL, VPS…) | S-6 (publicar el catálogo) | PostgreSQL gestionado; SQLite solo en local |
+| **D-22** | **Dónde viven las imágenes subidas** a Strapi en producción: carpeta local del servidor o proveedor (Cloudinary/S3/R2). El sitio estático las enlaza por URL absoluta | S-6 | Proveedor externo (R2 o Cloudinary) para no depender del disco del servidor |
+| **D-23** | **Revisión de la taxonomía curada** (`PLAN_STRAPI.md` §3) y de los textos importados de WooCommerce (emojis, mayúsculas, errores como «Narural») por parte del cliente | Publicar `/productos/` | Corregir en el panel de Strapi; el *seed* solo hace la carga inicial |
+| **D-24** | **Precios visibles** (ST-03): confirmar con el cliente que son vigentes y que pueden publicarse; IVA incluido o no | Publicar `/productos/` | Mostrar «IVA incluido» solo si el cliente lo confirma; mientras tanto, sin leyenda |
 
 ---
 

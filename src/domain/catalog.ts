@@ -49,26 +49,51 @@ export type Category = {
   channel?: Channel["slug"];
   image?: Media;
   order: number;
+  /** Productos publicados en la categoría (para ocultar las vacías). */
+  productCount: number;
 };
 
 export type Price = {
   amount: number;
+  /** Precio anterior cuando hay oferta (se muestra tachado). */
+  compareAtAmount?: number;
   currency: "COP";
   unit?: string;
   /** false = se muestra «Cotizar» en lugar del precio. */
   visible: boolean;
 };
 
+/** Texto enriquecido mínimo (subconjunto de los «Blocks» de Strapi, sin HTML arbitrario). */
+export type RichTextInline = { text: string; bold?: boolean; italic?: boolean };
+
+export type RichTextBlock =
+  | { type: "paragraph" | "quote"; children: RichTextInline[] }
+  | { type: "heading"; level: 2 | 3 | 4; children: RichTextInline[] }
+  | { type: "list"; ordered: boolean; items: RichTextInline[][] };
+
+/** Dato de ficha técnica ya rotulado (presentación, dosificación, INVIMA…). */
+export type ProductSpec = { label: string; value: string };
+
+export type Seo = {
+  title?: string;
+  description?: string;
+  image?: Media;
+};
+
 export type Product = {
   slug: string;
   name: string;
-  category: Category["slug"];
+  category: Pick<Category, "slug" | "name">;
   channels: Channel["slug"][];
+  brand?: string;
   shortDescription: string;
-  description?: string;
+  description: RichTextBlock[];
   images: Media[];
   presentation?: string;
+  /** Ficha técnica en el orden en que se muestra. */
+  specs: ProductSpec[];
   sku?: string;
   price?: Price;
   featured: boolean;
+  seo?: Seo;
 };

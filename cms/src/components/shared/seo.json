@@ -1,0 +1,10 @@
+{
+  "collectionName": "components_shared_seos",
+  "info": { "displayName": "SEO", "description": "Metadatos de la página" },
+  "options": {},
+  "attributes": {
+    "metaTitle": { "type": "string", "maxLength": 70 },
+    "metaDescription": { "type": "text", "maxLength": 160 },
+    "shareImage": { "type": "media", "multiple": false, "allowedTypes": ["images"] }
+  }
+}

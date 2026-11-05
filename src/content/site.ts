@@ -14,8 +14,9 @@ export const siteConfig = {
   tagline: "Insumos de Calidad",
   copyrightStartYear: 2021,
 
+  /** `catalogHref`: destino alternativo cuando el catálogo propio está activo (CATALOG_SOURCE=strapi). */
   nav: [
-    { label: "Productos", href: "/#productos" },
+    { label: "Productos", href: "/#productos", catalogHref: "/productos/" },
     { label: "Canales", href: "/#canales" },
     { label: "Nosotros", href: "/#nosotros" },
     { label: "Contáctenos", href: "/contactenos/" },

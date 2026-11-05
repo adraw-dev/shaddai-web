@@ -13,7 +13,7 @@
 7. **Accesibilidad desde la primera línea:** foco visible, etiquetas, contraste AA, áreas táctiles ≥ 44 px.
 8. **Verificar el renderizado real** (móvil 360 px y desktop) antes de dar por terminada una tarea visual.
 9. **Una tarea del roadmap = un commit pequeño.** Este repo vive en `Shaddai/` (tiene su propio `.git`; la carpeta personal del usuario es otro repo: no tocarlo).
-10. **Fuera de alcance de la Fase 1:** Strapi, catálogo, carrito, blog, analítica, modo oscuro.
+10. **Strapi y catálogo** se rigen por [`docs/PLAN_STRAPI.md`](docs/PLAN_STRAPI.md) (CMS en `cms/`, proyecto Node aparte). Siguen fuera de alcance: carrito, blog, analítica, modo oscuro.
 
 ## Particularidades técnicas
 

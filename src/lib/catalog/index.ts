@@ -1,16 +1,30 @@
-import { channels } from "@/content/channels";
+import { catalogUrl as legacyCatalogUrl, channels } from "@/content/channels";
 import { productLines } from "@/content/product-lines";
-import type { Channel, ProductLine } from "@/domain/catalog";
+import type { Category, Channel, Product, ProductLine } from "@/domain/catalog";
+import { getCatalogEnv } from "@/lib/env";
+import { fetchCategories, fetchProducts } from "./strapi/client";
+import { mapCategory, mapProduct } from "./strapi/mapper";
 
 /**
  * Punto de acceso a datos del catálogo (plan §12.2): API estable que consume la UI.
  *
- * Fase 1: lee `src/content/` (datos estáticos tipados).
- * Fase futura (Strapi): este módulo elegirá la fuente según `CATALOG_SOURCE` y delegará en
- * `lib/catalog/strapi/*` (fetch + mapper → tipos de dominio). La UI no cambia.
+ * - `CATALOG_SOURCE=static` (por defecto): canales y líneas desde `src/content/`; sin catálogo propio
+ *   (listas vacías) y los CTA apuntan a la tienda actual.
+ * - `CATALOG_SOURCE=strapi`: categorías y productos desde Strapi vía `./strapi/*` (fetch + mapper).
  *
- * Las funciones son `async` desde ahora: los componentes de servidor ya hacen `await`.
+ * Las funciones son `async`: los componentes de servidor hacen `await` sin saber de dónde vienen los datos.
  */
+
+/** true = el sitio genera /productos/ con datos de Strapi. */
+export function isCatalogEnabled(): boolean {
+  return getCatalogEnv().source === "strapi";
+}
+
+/** Destino de «Conoce nuestro catálogo»: el catálogo propio si existe; si no, la tienda actual. */
+export function getCatalogUrl(): string {
+  return isCatalogEnabled() ? "/productos/" : legacyCatalogUrl;
+}
+
 export async function getChannels(): Promise<Channel[]> {
   return channels;
 }
@@ -18,3 +32,54 @@ export async function getChannels(): Promise<Channel[]> {
 export async function getProductLines(): Promise<ProductLine[]> {
   return productLines;
 }
+
+/** Todos los productos publicados, ordenados por nombre. */
+export async function getProducts(): Promise<Product[]> {
+  const catalog = getCatalogEnv();
+  if (catalog.source !== "strapi") return [];
+  const products = await fetchProducts();
+  return products
+    .map((product) => mapProduct(product, catalog.strapiUrl))
+    .filter((product): product is Product => !!product);
+}
+
+/** Categorías con al menos un producto publicado, en el orden definido en el CMS. */
+export async function getCategories(): Promise<Category[]> {
+  const catalog = getCatalogEnv();
+  if (catalog.source !== "strapi") return [];
+  const [categories, products] = await Promise.all([fetchCategories(), getProducts()]);
+  return categories
+    .map((category) =>
+      mapCategory(category, catalog.strapiUrl, products.filter((p) => p.category.slug === category.slug).length),
+    )
+    .filter((category) => category.productCount > 0);
+}
+
+export async function getCategoryBySlug(slug: string): Promise<Category | undefined> {
+  return (await getCategories()).find((category) => category.slug === slug);
+}
+
+export async function getProductsByCategory(slug: string): Promise<Product[]> {
+  return (await getProducts()).filter((product) => product.category.slug === slug);
+}
+
+export async function getProductBySlug(slug: string): Promise<Product | undefined> {
+  return (await getProducts()).find((product) => product.slug === slug);
+}
+
+/**
+ * Con `output: "export"`, `generateStaticParams` no puede devolver una lista vacía (error de build).
+ * Sin catálogo (CATALOG_SOURCE=static) se genera un único parámetro marcador cuya página responde
+ * `notFound()`: el build no falla y la ruta no enlaza ni aparece en el sitemap.
+ */
+export const CATALOG_PLACEHOLDER = "sin-catalogo";
+
+export function withPlaceholder<T extends Record<string, string>>(params: T[], placeholder: T): T[] {
+  return params.length ? params : [placeholder];
+}
+
+/** URL interna de una ficha de producto (plan §12.4). */
+export const productHref = (product: Pick<Product, "slug" | "category">) =>
+  `/productos/${product.category.slug}/${product.slug}/`;
+
+export const categoryHref = (category: Pick<Category, "slug">) => `/productos/${category.slug}/`;

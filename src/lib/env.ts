@@ -128,6 +128,44 @@ function parseEnv() {
 
 export const env = parseEnv();
 
+/**
+ * Variables del catálogo (docs/PLAN_STRAPI.md §4). Son SOLO de build/servidor: sin `NEXT_PUBLIC_`, así
+ * que nunca llegan al navegador. Se leen de forma perezosa (función, no constante del módulo) para que
+ * importar `env` desde un componente de cliente no evalúe ni exija estas variables.
+ */
+export type CatalogSource = "static" | "strapi";
+
+export type CatalogEnv =
+  | { source: "static" }
+  | { source: "strapi"; strapiUrl: string; strapiApiToken: string };
+
+let catalogEnv: CatalogEnv | undefined;
+
+export function getCatalogEnv(): CatalogEnv {
+  if (catalogEnv) return catalogEnv;
+
+  const source = clean(process.env.CATALOG_SOURCE) ?? "static";
+  if (source !== "static" && source !== "strapi") {
+    throw new Error(`CATALOG_SOURCE="${source}" no es válida (static | strapi).`);
+  }
+  if (source === "static") return (catalogEnv = { source });
+
+  const problems: string[] = [];
+  const strapiUrl = clean(process.env.STRAPI_URL);
+  const strapiApiToken = clean(process.env.STRAPI_API_TOKEN);
+  if (!strapiUrl || !isHttpUrl(strapiUrl)) {
+    problems.push("STRAPI_URL es obligatoria con CATALOG_SOURCE=strapi y debe ser una URL http(s).");
+  }
+  if (!strapiApiToken) {
+    problems.push("STRAPI_API_TOKEN es obligatoria con CATALOG_SOURCE=strapi (token de solo lectura).");
+  }
+  if (problems.length > 0) {
+    throw new Error(`Variables del catálogo inválidas (ver .env.example y docs/PLAN_STRAPI.md §6):\n- ${problems.join("\n- ")}`);
+  }
+
+  return (catalogEnv = { source, strapiUrl: stripTrailingSlash(strapiUrl!), strapiApiToken: strapiApiToken! });
+}
+
 /** URL absoluta dentro de la nueva web (canónicas, sitemap, Open Graph). */
 export const absoluteUrl = (path = "/") =>
   `${env.siteUrl}${path.startsWith("/") ? path : `/${path}`}`;
