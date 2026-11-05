@@ -105,7 +105,7 @@ Registradas en `PLAN_DESARROLLO.md` §17 como D-21 a D-24. D-21 y D-22 se resolv
 |---|---|---|
 | Servicio web | `shaddai-cms`, plan *Starter*, región Virginia | El plan gratuito no admite disco y se duerme |
 | Base de datos | `shaddai-cms-db`, plan `basic-256mb` | La PostgreSQL gratuita caduca a los 30 días |
-| Imágenes | Disco `strapi-uploads` (1 GB) en `cms/public/uploads` | Sin disco, las subidas se pierden en cada despliegue |
+| Imágenes | Disco `strapi-uploads` (1 GB) montado en `/var/data`; la carpeta pública de Strapi es `/var/data/public` (`PUBLIC_DIR`) | Sin disco, las subidas se pierden en cada despliegue. No se monta directamente en `public/uploads`: `strapi transfer` mueve esa carpeta para su copia de seguridad y un punto de montaje no se puede mover (`ASSETS_DIRECTORY_ERR`, visto el 2026-11-05) |
 | Secretos | Generados por Render (`generateValue`) | Nunca se reutilizan los del `.env` local |
 | Despliegues | Automáticos desde `main`, solo si cambia `cms/**` | Los cambios del sitio Next no redespliegan el CMS |
 
@@ -124,6 +124,8 @@ Registradas en `PLAN_DESARROLLO.md` §17 como D-21 a D-24. D-21 y D-22 se resolv
       cd cms && npx strapi transfer --to https://<servicio>.onrender.com/admin --to-token <TOKEN>
       ```
       Confirma que **borra** el contenido remoto (en el primer despliegue está vacío). Al terminar, eliminar el transfer token.
+
+      **Red corporativa:** si falla con `self-signed certificate in certificate chain`, la red inspecciona HTTPS con su propio certificado. Repetir con `NODE_OPTIONS=--use-system-ca` (Node usa los certificados de Windows; verificado el 2026-11-05). En PowerShell: `$env:NODE_OPTIONS="--use-system-ca"` antes del comando. Nunca usar `NODE_TLS_REJECT_UNAUTHORIZED=0`.
 6. **Token de lectura para Vercel:** *Settings → API Tokens → Create new API Token*: nombre `vercel-build`, tipo **Read-only**, duración *Unlimited*. Copiarlo (solo se muestra una vez).
 7. **Variables en Vercel** (Production y Preview): `CATALOG_SOURCE=strapi`, `STRAPI_URL=https://<servicio>.onrender.com`, `STRAPI_API_TOKEN=<token>`. Volver a desplegar.
 8. **Reconstruir el sitio al publicar (S-6):** en Vercel, *Settings → Git → Deploy Hooks* → crear uno para `main` y copiar la URL. En Strapi, *Settings → Webhooks → Create new webhook* con esa URL y los eventos de **Entry** *publish*, *unpublish* y *delete*. Probarlo con *Trigger*.

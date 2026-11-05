@@ -14,16 +14,21 @@ services:
     branch: main
     rootDir: cms
     buildCommand: npm ci && npm run build
-    startCommand: npm run start
+    # La carpeta pública vive en el disco (PUBLIC_DIR): se asegura uploads/ (Strapi la exige al
+    # arrancar) y se copia robots.txt desde el repositorio antes de iniciar.
+    startCommand: mkdir -p /var/data/public/uploads && cp -f public/robots.txt /var/data/public/ && npm run start
     healthCheckPath: /_health
     autoDeploy: true
     buildFilter:
       paths:
         - cms/**
     # Imágenes del Media Library (proveedor local de Strapi) en un disco que sobrevive a los despliegues.
+    # Se monta en /var/data y la carpeta pública de Strapi es /var/data/public (PUBLIC_DIR): uploads/
+    # queda como carpeta normal. NO montar el disco directamente en public/uploads: `strapi transfer`
+    # necesita mover esa carpeta y un punto de montaje no se puede mover (error ASSETS_DIRECTORY_ERR).
     disk:
       name: strapi-uploads
-      mountPath: /opt/render/project/src/cms/public/uploads
+      mountPath: /var/data
       sizeGB: 1
     envVars:
       - key: NODE_VERSION
@@ -32,6 +37,8 @@ services:
         value: production
       - key: IS_PROXIED
         value: "true"
+      - key: PUBLIC_DIR
+        value: /var/data/public
       - key: DATABASE_CLIENT
         value: postgres
       - key: DATABASE_URL
