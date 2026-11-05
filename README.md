@@ -49,6 +49,8 @@ cd cms && npm run develop        # panel en http://localhost:1337/admin (crear e
 npm run build                    # con Strapi encendido: genera /productos/ en out/
 ```
 
+Producción: Strapi en **Render** con el Blueprint [`render.yaml`](render.yaml); paso a paso en `docs/PLAN_STRAPI.md` §9.
+
 Sin `CATALOG_SOURCE=strapi` el sitio se construye como antes (sin `/productos/`; los CTA van a la tienda actual).
 
 ## Despliegue (Vercel y Cloudflare Pages)
