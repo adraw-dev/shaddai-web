@@ -12,6 +12,7 @@
     "start": "strapi start",
     "strapi": "strapi",
     "seed": "node scripts/seed.js",
+    "export:catalog": "node scripts/export-catalog.js",
     "token:local": "node scripts/create-local-token.js",
     "upgrade": "npx @strapi/upgrade latest",
     "upgrade:dry": "npx @strapi/upgrade latest --dry"

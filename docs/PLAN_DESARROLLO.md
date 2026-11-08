@@ -932,6 +932,7 @@ Convenciones: **ID** = `F<fase>-<n>`. Una tarea = un commit (o un PR pequeño). 
 | ~~**D-22**~~ | ~~Dónde viven las imágenes subidas a Strapi en producción~~ | — | **RESUELTO 2026-11-05:** disco persistente de Render. Migrable a Cloudflare R2 si hace falta independizar las fotos del servidor (`PLAN_STRAPI.md` §9) |
 | **D-23** | **Revisión de la taxonomía curada** (`PLAN_STRAPI.md` §3) y de los textos importados de WooCommerce (emojis, mayúsculas, errores como «Narural») por parte del cliente | Publicar `/productos/` | Corregir en el panel de Strapi; el *seed* solo hace la carga inicial |
 | **D-24** | **Precios visibles** (ST-03): confirmar con el cliente que son vigentes y que pueden publicarse; IVA incluido o no | Publicar `/productos/` | Mostrar «IVA incluido» solo si el cliente lo confirma; mientras tanto, sin leyenda |
+| **D-25** | **CMS experimental** (rama `exp/cms-experimental`, pedido por el usuario el 2026-11-07): se prueba un CMS nuevo de un tercero como alternativa a Strapi. Estructura y archivo de importación en [`CMS_EXPERIMENTAL.md`](CMS_EXPERIMENTAL.md). ¿Reemplaza a Strapi o queda como prueba? | — (no bloquea) | Strapi sigue siendo la fuente en `main` hasta decidir |
 
 ---
 
