@@ -2,6 +2,8 @@ import { catalogUrl as legacyCatalogUrl, channels } from "@/content/channels";
 import { productLines } from "@/content/product-lines";
 import type { Category, Channel, Product, ProductLine } from "@/domain/catalog";
 import { getCatalogEnv } from "@/lib/env";
+import { fetchCatalog as fetchCmsCatalog } from "./cms/client";
+import { mapCategory as mapCmsCategory, mapProduct as mapCmsProduct } from "./cms/mapper";
 import { fetchCategories, fetchProducts } from "./strapi/client";
 import { mapCategory, mapProduct } from "./strapi/mapper";
 
@@ -11,14 +13,17 @@ import { mapCategory, mapProduct } from "./strapi/mapper";
  * - `CATALOG_SOURCE=static` (por defecto): canales y líneas desde `src/content/`; sin catálogo propio
  *   (listas vacías) y los CTA apuntan a la tienda actual.
  * - `CATALOG_SOURCE=strapi`: categorías y productos desde Strapi vía `./strapi/*` (fetch + mapper).
+ * - `CATALOG_SOURCE=cms`: lo mismo desde el CMS experimental vía `./cms/*` (docs/CMS_EXPERIMENTAL.md).
  *
  * Las funciones son `async`: los componentes de servidor hacen `await` sin saber de dónde vienen los datos.
  */
 
-/** true = el sitio genera /productos/ con datos de Strapi. */
+/** true = el sitio genera /productos/ con datos de un CMS. */
 export function isCatalogEnabled(): boolean {
-  return getCatalogEnv().source === "strapi";
+  return getCatalogEnv().source !== "static";
 }
+
+const byName = (a: Product, b: Product) => a.name.localeCompare(b.name, "es");
 
 /** Destino de «Conoce nuestro catálogo»: el catálogo propio si existe; si no, la tienda actual. */
 export function getCatalogUrl(): string {
@@ -36,6 +41,13 @@ export async function getProductLines(): Promise<ProductLine[]> {
 /** Todos los productos publicados, ordenados por nombre. */
 export async function getProducts(): Promise<Product[]> {
   const catalog = getCatalogEnv();
+  if (catalog.source === "cms") {
+    const cms = await fetchCmsCatalog();
+    return cms.products
+      .map((product) => mapCmsProduct(product, cms))
+      .filter((product): product is Product => !!product)
+      .sort(byName);
+  }
   if (catalog.source !== "strapi") return [];
   const products = await fetchProducts();
   return products
@@ -46,6 +58,13 @@ export async function getProducts(): Promise<Product[]> {
 /** Categorías con al menos un producto publicado, en el orden definido en el CMS. */
 export async function getCategories(): Promise<Category[]> {
   const catalog = getCatalogEnv();
+  if (catalog.source === "cms") {
+    const [cms, products] = await Promise.all([fetchCmsCatalog(), getProducts()]);
+    return cms.categories
+      .map((category) => mapCmsCategory(category, products.filter((p) => p.category.slug === category.slug).length))
+      .filter((category) => category.productCount > 0)
+      .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name, "es"));
+  }
   if (catalog.source !== "strapi") return [];
   const [categories, products] = await Promise.all([fetchCategories(), getProducts()]);
   return categories

@@ -397,10 +397,24 @@ async function main() {
   }
 }
 
-main().then(
-  () => process.exit(0),
-  (err) => {
-    console.error(err);
-    process.exit(1);
-  },
-);
+// Reutilizado por scripts/export-catalog.js: la carga solo corre si se invoca este archivo directamente.
+if (require.main === module) {
+  main().then(
+    () => process.exit(0),
+    (err) => {
+      console.error(err);
+      process.exit(1);
+    },
+  );
+}
+
+module.exports = {
+  SOURCE_DIR,
+  CHANNELS,
+  CATEGORIES,
+  CHANNEL_BY_WOO_CATEGORY,
+  BRAND_NAME_FIX,
+  slugify,
+  categoryOf,
+  toProductData,
+};

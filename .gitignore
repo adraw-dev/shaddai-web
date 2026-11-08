@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# fotos del catálogo copiadas por scripts/sync-catalog-images.mjs (CATALOG_SOURCE=cms)
+/public/catalogo/
+
 # production
 /build
 
