@@ -6,7 +6,9 @@
     "node": ">=22"
   },
   "scripts": {
+    "predev": "node scripts/sync-catalog-images.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/sync-catalog-images.mjs",
     "build": "next build",
     "lint": "eslint",
     "typecheck": "tsc --noEmit"

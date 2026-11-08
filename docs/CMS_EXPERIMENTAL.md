@@ -127,6 +127,23 @@ El sitio es estático: lee el catálogo **solo durante el build** desde `src/lib
    ancho/alto y, si las hay, variantes de tamaño.
 4. Acceso de solo lectura con token (el token nunca llega al navegador).
 
+### Conexión implementada (`CATALOG_SOURCE=cms`)
+
+El CMS es `copiaSanity` (Cloudflare Worker + Neon; API en `/api/v1`). El sitio lo lee en el build con
+`src/lib/catalog/cms/` (`client.ts` → `mapper.ts` → tipos de `domain/`). Variables en `.env.local`:
+`CMS_URL`, `CMS_SITE` (`shaddai`), `CMS_API_TOKEN`.
+
+- **Acceso:** JWT de proyecto (HS256, alcance `read`, ligado al sitio) en `Authorization: Bearer`. El CMS
+  solo lo acepta en GET y en las rutas de consulta. El build lee `GET /s/<sitio>/documents` y se queda
+  con `published`.
+- **Forma de los datos tras la importación:** claves en minúsculas (`shortdescription`, `compareatprice`…);
+  `category`, `brand` y `channels` son texto con slugs (`channels` separados por coma); `description` es HTML
+  limitado (se convierte a los bloques del dominio); `images` es el JSON de `catalogo.json` como texto.
+- **Imágenes:** siguen en `docs/referencia/productos/imagenes/`. `scripts/sync-catalog-images.mjs`
+  (predev/prebuild, solo con `CATALOG_SOURCE=cms`) las copia a `public/catalogo/`; las dimensiones se leen
+  de la cabecera del archivo. Las fotos subidas al CMS (`{ assetId, alt }`) **todavía no se soportan**: el
+  token ya puede leer `/assets/<id>/content`, pero habría que bajarlas en el build.
+
 ## 5. Pendientes heredados
 
 - D-23: el cliente aún no revisa la taxonomía ni los textos importados (mayúsculas, errores como «Narural»).

@@ -133,11 +133,13 @@ export const env = parseEnv();
  * que nunca llegan al navegador. Se leen de forma perezosa (función, no constante del módulo) para que
  * importar `env` desde un componente de cliente no evalúe ni exija estas variables.
  */
-export type CatalogSource = "static" | "strapi";
+export type CatalogSource = "static" | "strapi" | "cms";
 
 export type CatalogEnv =
   | { source: "static" }
-  | { source: "strapi"; strapiUrl: string; strapiApiToken: string };
+  | { source: "strapi"; strapiUrl: string; strapiApiToken: string }
+  /** CMS experimental (docs/CMS_EXPERIMENTAL.md): JWT de proyecto de solo lectura. */
+  | { source: "cms"; cmsUrl: string; cmsSite: string; cmsApiToken: string };
 
 let catalogEnv: CatalogEnv | undefined;
 
@@ -145,10 +147,11 @@ export function getCatalogEnv(): CatalogEnv {
   if (catalogEnv) return catalogEnv;
 
   const source = clean(process.env.CATALOG_SOURCE) ?? "static";
-  if (source !== "static" && source !== "strapi") {
-    throw new Error(`CATALOG_SOURCE="${source}" no es válida (static | strapi).`);
+  if (source !== "static" && source !== "strapi" && source !== "cms") {
+    throw new Error(`CATALOG_SOURCE="${source}" no es válida (static | strapi | cms).`);
   }
   if (source === "static") return (catalogEnv = { source });
+  if (source === "cms") return (catalogEnv = getCmsEnv());
 
   const problems: string[] = [];
   const strapiUrl = clean(process.env.STRAPI_URL);
@@ -164,6 +167,31 @@ export function getCatalogEnv(): CatalogEnv {
   }
 
   return (catalogEnv = { source, strapiUrl: stripTrailingSlash(strapiUrl!), strapiApiToken: strapiApiToken! });
+}
+
+function getCmsEnv(): CatalogEnv {
+  const problems: string[] = [];
+  const cmsUrl = clean(process.env.CMS_URL);
+  const cmsSite = clean(process.env.CMS_SITE);
+  const cmsApiToken = clean(process.env.CMS_API_TOKEN);
+  if (!cmsUrl || !isHttpUrl(cmsUrl)) {
+    problems.push("CMS_URL es obligatoria con CATALOG_SOURCE=cms y debe ser una URL http(s).");
+  }
+  if (!cmsSite || !/^[a-z0-9-]{2,40}$/.test(cmsSite)) {
+    problems.push("CMS_SITE es obligatoria con CATALOG_SOURCE=cms (id del sitio en el CMS, p. ej. shaddai).");
+  }
+  if (!cmsApiToken || cmsApiToken.split(".").length !== 3) {
+    problems.push("CMS_API_TOKEN es obligatoria con CATALOG_SOURCE=cms (JWT de proyecto de solo lectura).");
+  }
+  if (problems.length > 0) {
+    throw new Error(`Variables del catálogo inválidas (ver .env.example y docs/CMS_EXPERIMENTAL.md):\n- ${problems.join("\n- ")}`);
+  }
+  return {
+    source: "cms",
+    cmsUrl: stripTrailingSlash(cmsUrl!),
+    cmsSite: cmsSite!,
+    cmsApiToken: cmsApiToken!,
+  };
 }
 
 /** URL absoluta dentro de la nueva web (canónicas, sitemap, Open Graph). */
